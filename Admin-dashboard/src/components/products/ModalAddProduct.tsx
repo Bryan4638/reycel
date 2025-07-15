@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Form,
   Input,
@@ -12,7 +13,7 @@ import {
   Spinner,
   Textarea,
 } from "@heroui/react";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import Selected from "./Selected";
 import Rating from "./Rating";
 import {
@@ -22,6 +23,7 @@ import {
 import { toast } from "sonner";
 import { Category, Products } from "../../type";
 import { getSedesRequest } from "../../services/sedes";
+import { BiUpload, BiX } from "react-icons/bi";
 
 interface Props {
   setProducts: React.Dispatch<React.SetStateAction<Products[] | null>>;
@@ -63,10 +65,14 @@ const ModalAddProduct: FC<Props> = ({
   investments,
 }) => {
   const [ratingValue, setRatingValue] = useState(rating || 0);
-  const [imageUrl, setImageUrl] = useState<string>("./producto.webp");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [sedes, setSedes] = useState<{ id: string; direction: string }[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [sedeId, setSedeId] = useState<string>("");
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getSedesRequest().then((res) => {
@@ -77,22 +83,70 @@ const ModalAddProduct: FC<Props> = ({
   useEffect(() => {
     if (id) {
       setRatingValue(rating || 0);
-      setImageUrl(initialImageUrl || "./producto.webp");
+      if (initialImageUrl) {
+        setPreviewUrl(initialImageUrl);
+      }
+    } else {
+      setPreviewUrl(null);
     }
     return () => {
       setRatingValue(0);
-      setImageUrl("./producto.webp");
+      if (initialImageUrl) {
+        setPreviewUrl(initialImageUrl);
+      }
     };
   }, [id, initialImageUrl, rating]);
 
   const [loading, setLoading] = useState(false);
 
-  const handleImageUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImageUrl(event.target.value);
-  };
-
   const handleSedeId = (value: React.ChangeEvent<HTMLSelectElement>) => {
     setSedeId(value.target.value);
+  };
+
+  const validateFile = (file: File): string | null => {
+    const maxSize = 15 * 1024 * 1024; // 5MB
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      return "Tipo de archivo no permitido. Solo se permiten imágenes JPEG, PNG, GIF y WebP.";
+    }
+
+    if (file.size > maxSize) {
+      return "El archivo es demasiado grande. Máximo 15MB permitido.";
+    }
+
+    return null;
+  };
+
+  const handleFileSelect = useCallback((file: File) => {
+    const validationError = validateFile(file);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setError(null);
+    setSelectedFile(file);
+
+    // Crear preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setPreviewUrl(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  }, []);
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleFileSelect(file);
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -106,7 +160,7 @@ const ModalAddProduct: FC<Props> = ({
     const description = data["description"] as string;
     const inventoryCount = parseInt(data["inventoryCount"] as string);
     const inputRating = ratingValue;
-    const imagen = data["imageUrl"] as string;
+    const imagen = selectedFile
     const inversion = parseInt(data["inversion"] as string);
 
     // Validaciones
@@ -341,32 +395,71 @@ const ModalAddProduct: FC<Props> = ({
             </ModalHeader>
             <ModalBody>
               <Form onSubmit={handleSubmit}>
-                <ScrollShadow hideScrollBar className=" flex gap-8 w-full flex-col lg:flex-row h-96 lg:h-auto">
+                <ScrollShadow
+                  hideScrollBar
+                  className=" flex gap-8 w-full flex-col lg:flex-row h-96 lg:h-auto"
+                >
                   <div className="flex flex-col items-center w-full gap-4">
-                    <img
-                      className="size-60 bg-neutral-300"
-                      src={imageUrl}
-                      alt="imagen de telefono"
-                    />
-                    <div className="pt-5 w-full">
-                      <h1>Introduce la url de la Imagen</h1>
-                      <Input
-                        size="md"
-                        color="primary"
-                        name="imageUrl"
-                        defaultValue={imageUrl}
-                        className="pt-2"
-                        placeholder="url/imagen.com"
-                        startContent={
-                          <div className="pointer-events-none flex items-center">
-                            <span className="text-default-400 text-small">
-                              https://
-                            </span>
+                    {/* Content */}
+                    <div className="p-6">
+                      {!selectedFile && !previewUrl ? (
+                        // Upload Area
+                        <div className="border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200  border-gray-300 hover:border-gray-400 ">
+                          <BiUpload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                          <p className="text-sm text-gray-500 mb-4">
+                            Haz clic para seleccionar
+                          </p>
+                          <button
+                            onClick={() => fileInputRef.current?.click()}
+                            type="button"
+                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                          >
+                            Seleccionar archivo
+                          </button>
+                          <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileInputChange}
+                            className="hidden"
+                          />
+                          <p className="text-xs text-gray-400 mt-3">
+                            JPEG, PNG, GIF, WebP (máx. 15MB)
+                          </p>
+                        </div>
+                      ) : (
+                        // Preview Area
+                        <div className="space-y-4">
+                          {/* Image Preview */}
+                          <div className="relative">
+                            <img
+                              src={previewUrl || ""}
+                              alt="Preview"
+                              className="w-full h-64 object-cover rounded-lg border border-gray-200"
+                            />
+                            {!loading && (
+                              <button
+                                onClick={() => {
+                                  setSelectedFile(null);
+                                  setPreviewUrl(null);
+                                  setError(null);
+                                }}
+                                className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors duration-200"
+                              >
+                                <BiX className="w-4 h-4" />
+                              </button>
+                            )}
                           </div>
-                        }
-                        type="url"
-                        onChange={handleImageUrlChange}
-                      />
+                        </div>
+                      )}
+
+                      {/* Error Message */}
+                      {error && (
+                        <div className="mt-4 flex items-center p-3 bg-red-50 text-red-800 rounded-lg">
+                          <Alert className="w-5 h-5 mr-2 flex-shrink-0" />
+                          <span className="text-sm">{error}</span>
+                        </div>
+                      )}
                     </div>
                     <Textarea
                       label="Descripción:"
@@ -377,7 +470,7 @@ const ModalAddProduct: FC<Props> = ({
                       placeholder="Introduce la descripción del Producto."
                     />
                   </div>
-                  <div className="flex flex-col gap-4 w-full">
+                  <div className="flex flex-col gap-6 w-full justify-center">
                     <div className="flex gap-8 justify-between flex-col lg:flex-row">
                       <Input
                         name="name"

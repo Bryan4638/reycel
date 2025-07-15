@@ -1,10 +1,4 @@
 import { Link } from "react-router-dom";
-import useUser from "../../customHooks/useUser";
-import useCategory from "../../customHooks/useCategory";
-import useProduct from "../../customHooks/useProduct";
-import useOrder from "../../customHooks/useOrder";
-import usePayments from "../../customHooks/usePayments";
-import useSede from "../../customHooks/useSede";
 import { FC } from "react";
 
 interface PropsSideBar {
@@ -12,15 +6,7 @@ interface PropsSideBar {
   onOpenChange: () => void;
 }
 
-const SideBar: FC<PropsSideBar> = ({isOpen, onOpenChange}) => {
-  
-  const { users } = useUser();
-  const { category } = useCategory();
-  const { products } = useProduct();
-  const { orders } = useOrder();
-  const { payments } = usePayments();
-  const { sedes } = useSede();
-
+const SideBar: FC<PropsSideBar> = ({ isOpen, onOpenChange }) => {
   return (
     <>
       {isOpen && (
@@ -76,9 +62,6 @@ const SideBar: FC<PropsSideBar> = ({isOpen, onOpenChange}) => {
                   <span className="flex-1 ms-3 whitespace-nowrap">
                     Usuarios
                   </span>
-                  <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium bg-success-300 text-gray-950 rounded-ss-lg rounded-ee-lg ">
-                    {users && users.length}
-                  </span>
                 </Link>
               </li>
               <li onClick={onOpenChange}>
@@ -97,9 +80,6 @@ const SideBar: FC<PropsSideBar> = ({isOpen, onOpenChange}) => {
                   </svg>
                   <span className="flex-1 ms-3 whitespace-nowrap">
                     Trabajadores
-                  </span>
-                  <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium bg-success-300 text-gray-950 rounded-ss-lg rounded-ee-lg ">
-                    {users && users.length}
                   </span>
                 </Link>
               </li>
@@ -120,9 +100,6 @@ const SideBar: FC<PropsSideBar> = ({isOpen, onOpenChange}) => {
                   <span className="flex-1 ms-3 whitespace-nowrap">
                     Categorias
                   </span>
-                  <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium bg-success-300 text-gray-950 rounded-ss-lg rounded-ee-lg ">
-                    {category && category.length}
-                  </span>
                 </Link>
               </li>
               <li onClick={onOpenChange}>
@@ -142,9 +119,6 @@ const SideBar: FC<PropsSideBar> = ({isOpen, onOpenChange}) => {
                   <span className="flex-1 ms-3 whitespace-nowrap">
                     Productos
                   </span>
-                  <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium bg-success-300 text-gray-950 rounded-ss-lg rounded-ee-lg ">
-                    {products && products.length}
-                  </span>
                 </Link>
               </li>
               <li onClick={onOpenChange}>
@@ -162,9 +136,6 @@ const SideBar: FC<PropsSideBar> = ({isOpen, onOpenChange}) => {
                     <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
                   </svg>
                   <span className="flex-1 ms-3 whitespace-nowrap">Ordenes</span>
-                  <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium bg-success-300 text-gray-950 rounded-ss-lg rounded-ee-lg ">
-                    {orders && orders.length}
-                  </span>
                 </Link>
               </li>
               <li onClick={onOpenChange}>
@@ -188,9 +159,6 @@ const SideBar: FC<PropsSideBar> = ({isOpen, onOpenChange}) => {
                     />
                   </svg>
                   <span className="flex-1 ms-3 whitespace-nowrap">Pagos</span>
-                  <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium bg-success-300 text-gray-950 rounded-ss-lg rounded-ee-lg ">
-                    {payments && payments.length}
-                  </span>
                 </Link>
               </li>
               <li onClick={onOpenChange}>
@@ -214,36 +182,33 @@ const SideBar: FC<PropsSideBar> = ({isOpen, onOpenChange}) => {
                     />
                   </svg>
                   <span className="flex-1 ms-3 whitespace-nowrap">Sedes</span>
-                  <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium bg-success-300 text-gray-950 rounded-ss-lg rounded-ee-lg ">
-                    {sedes && sedes.length}
-                  </span>
                 </Link>
               </li>
               <li onClick={onOpenChange}>
-                      <Link
-                        to={"/trash"}
-                        className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                      >
-                        <svg
-                          className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M10 3v4M10 13v4m0-6h4m-8 0H5M17 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5 15a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM17 15a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"
-                          />
-                        </svg>
-                        <span className="flex-1 ms-3 whitespace-nowrap">
-                          Inversiones o Merma
-                        </span>
-                      </Link>
-                    </li>
+                <Link
+                  to={"/trash"}
+                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                >
+                  <svg
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 3v4M10 13v4m0-6h4m-8 0H5M17 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5 15a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM17 15a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"
+                    />
+                  </svg>
+                  <span className="flex-1 ms-3 whitespace-nowrap">
+                    Inversiones o Merma
+                  </span>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

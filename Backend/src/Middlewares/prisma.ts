@@ -49,12 +49,12 @@ prisma.$use(async (params: Prisma.MiddlewareParams, next: (params: Prisma.Middle
             if (orderItem) {
                 const totalAmount = await prisma.orderItem.aggregate({
                     where: { orderId: orderItem.orderId },
-                    _sum: { price: true },
+                    _sum: { price: true, quantity: true },
                 });
 
                 const updatedOrder = await prisma.order.update({
                     where: { id: orderItem.orderId },
-                    data: { totalAmount: totalAmount._sum.price || 0 },
+                    data: { totalAmount: (totalAmount._sum.price || 0 ) },
                     select: { totalAmount: true },
                 });
                 updatedTotalAmount = updatedOrder.totalAmount;

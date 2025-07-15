@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request } from "express";
 import { authMiddleware } from "../Middlewares/middlewareAdmin";
 import {
   createProduct,
@@ -14,6 +14,10 @@ import {
   getCategory,
   updateCategory,
 } from "../Controllers/category.controller";
+import multer from "multer";
+import path from "path";
+import upload from "../Middlewares/upload.midleware";
+
 const router = Router();
 
 // import { PrismaClient } from "@prisma/client";
@@ -46,7 +50,9 @@ const router = Router();
 //   } finally {
 //     await prisma.$disconnect();
 //   }
-// }); 
+// });
+
+// Configuración de Multer;
 
 router.get("/products/search", searchProduct);
 
@@ -54,9 +60,9 @@ router.get("/products", getProductID);
 
 router.get("/product", authMiddleware, getProducts);
 
-router.post("/product", authMiddleware, createProduct);
+router.post("/product", upload.single("imagen"), authMiddleware, createProduct);
 
-router.put("/product/:id", authMiddleware, updateProduct);
+router.put("/product/:id", upload.single("imagen"), authMiddleware, updateProduct);
 
 router.delete("/product/:id", authMiddleware, deleteProduct);
 

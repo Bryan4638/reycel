@@ -46,7 +46,8 @@ const columns = [
   { name: "CATEGORIA", uid: "category", sortable: true },
   { name: "PRECIO", uid: "price", sortable: true },
   { name: "INVERSION", uid: "invertments" },
-  { name: "CANTIDAD", uid: "quantity", sortable: true },
+  { name: "EN STOCK", uid: "quantity", sortable: true },
+  { name: "CANTIDAD INICIAL", uid: "inicial_quantity", sortable: true },
   { name: "RATING", uid: "ratingAverage", sortable: true },
   { name: "FECHA DE CREACIÓN", uid: "createdAt", sortable: true },
   { name: "ACCIONES", uid: "actions" },
@@ -54,11 +55,11 @@ const columns = [
 
 const INITIAL_VISIBLE_COLUMNS = [
   "name",
-  "sede",
   "price",
   "invertments",
   "category",
   "quantity",
+  "inicial_quantity",
   "actions",
   "createdAt",
   "ratingAverage",
@@ -351,6 +352,17 @@ export default function ProductTable() {
             color={product.inventoryCount <= 3 ? "danger" : "success"}
           >
             {String(product.inventoryCount)}
+          </Chip>
+        );
+      case "inicial_quantity":
+        return (
+          <Chip
+            className="capitalize"
+            size="sm"
+            variant="dot"
+            color={product.inicialInventory <= 3 ? "danger" : "success"}
+          >
+            {String(product.inicialInventory)}
           </Chip>
         );
       case "actions":

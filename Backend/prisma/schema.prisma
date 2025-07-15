@@ -75,6 +75,7 @@ model Product {
   categoryId            String
   investments           Int?
   imagen                String?
+  originImage           String?
   color                 String?
   ram                   Int?
   storage               Int?
@@ -83,6 +84,7 @@ model Product {
   mpxCameraBack         Int?
   ratingAverage         Float                  @default(1)
   inventoryCount        Int                    @default(1)
+  inicialInventory      Int                    @default(1)
   category              Category               @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   inventoryTransactions InventoryTransaction[]
   orderItems            OrderItem[]
@@ -265,4 +267,24 @@ model TempInventoryReservation {
   createdAt DateTime @default(now())
 
   @@index([userId, orderId])
+}
+
+model AuditLog {
+  id        String    @id @default(uuid())
+  action    LogAction // CREATE, UPDATE, DELETE
+  model     String // Nombre del modelo afectado (ej. "Product", "Client")
+  recordId  String // ID del registro afectado
+  oldData   Json? // Datos antes del cambio (para UPDATE/DELETE)
+  newData   Json? // Datos nuevos (para CREATE/UPDATE)
+  changedBy String? // ID del usuario que realizó el cambio
+  changedAt DateTime  @default(now())
+  ipAddress String?
+  userAgent String?
+}
+
+enum LogAction {
+  CREATE
+  UPDATE
+  DELETE
+  SOFT_DELETE
 }

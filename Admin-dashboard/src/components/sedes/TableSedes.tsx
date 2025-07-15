@@ -234,14 +234,16 @@ export default function TableSedes() {
                   <EditIcon />
                 </button>
               </Tooltip>
-              <Tooltip color="danger" content="Delete Sede">
-                <button
-                  onClick={handleDelete(sede.id)}
-                  className="text-lg text-danger cursor-pointer active:opacity-50"
-                >
-                  <DeleteIcon />
-                </button>
-              </Tooltip>
+              {sede._count.producto === 0 && sede.workers.length === 0 && (
+                <Tooltip color="danger" content="Delete Sede">
+                  <button
+                    onClick={handleDelete(sede.id)}
+                    className="text-lg text-danger cursor-pointer active:opacity-50"
+                  >
+                    <DeleteIcon />
+                  </button>
+                </Tooltip>
+              )}
             </div>
           ) : (
             <div className="relative flex justify-center items-center gap-2">

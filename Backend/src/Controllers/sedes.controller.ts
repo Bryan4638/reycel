@@ -13,6 +13,11 @@ export const getSedes = async (req: Request, res: Response) => {
         phone: true,
         netProfits: true,
         losses: true,
+        _count:{
+          select:{
+            producto: true
+          }
+        },
         finalLosses: true,
         rent: true,
         workers: {
@@ -34,7 +39,7 @@ export const getSedes = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log("Error:", error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 
@@ -78,7 +83,7 @@ export const getSedeId = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log("Error:", error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 

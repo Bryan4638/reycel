@@ -7,7 +7,9 @@ import { toast } from "sonner";
 import AuthUser from "../../pages/auth/AuthUser";
 import { useUserStore } from "../../store/useUserStore";
 
-const Card: FC<Products> = (product) => {
+type CardProps = Omit<Products, "originImage">;
+
+const Card: FC<CardProps> = (product) => {
   const { isAuth } = useUserStore();
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 

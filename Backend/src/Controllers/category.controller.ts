@@ -40,7 +40,7 @@ export const createCategory = async (req: Request, res: Response) => {
       select: {
         id: true,
         name: true,
-        profitsBySell,
+        profitsBySell: true,
         createdAt: true,
         _count: {
           select: {

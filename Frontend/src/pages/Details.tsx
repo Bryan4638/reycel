@@ -89,7 +89,7 @@ export default function Details() {
           <div className="flex flex-col md:grid md:grid-cols-2 md:justify-evenly">
             <div className="md:w-2/5 md:fixed md:left-20">
               <img
-                src={product.imagen}
+                src={product.originImage}
                 alt={product.name}
                 className="md:w-11/12 w-full rounded-lg"
               />

@@ -68,6 +68,9 @@ interface Sede {
   phone: string;
   direction: string;
   workers: Workers[];
+  _count: {
+    producto: number;
+  };
   rent: number;
   netProfits: number;
   finalLosses: number;
@@ -90,6 +93,7 @@ export interface Products {
   description: string;
   price: number;
   rating: number;
+  inicialInventory: number;
   imagen: string;
   createdAt: string;
   inventoryCount: number;

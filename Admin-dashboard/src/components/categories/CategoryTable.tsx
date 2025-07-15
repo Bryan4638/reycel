@@ -51,6 +51,7 @@ export function Capitalize(s: string) {
 const columns = [
   { name: "NOMBRE", uid: "name", sortable: true },
   { name: "CANTIDAD DE PRODUCTOS", uid: "productquantity", sortable: true },
+  { name: "GANACIA POR PRODUCTO", uid: "profitsBySell", sortable: true },
   { name: "FECHA DE CREACION", uid: "createdAt", sortable: true },
   { name: "GANANCIA POR VENTA DEL MODERADOR", uid: "profits" },
   { name: "ACTIONS", uid: "actions" },
@@ -59,6 +60,7 @@ const columns = [
 const INITIAL_VISIBLE_COLUMNS = [
   "name",
   "productquantity",
+  "profitsBySell",
   "createdAt",
   "actions",
 ];
@@ -184,21 +186,29 @@ export default function CategoryTable() {
       });
   };
 
-  const renderCell = useCallback((Category: Category, columnKey: Key) => {
-    const cellValue = Category[columnKey as keyof Category];
+  const renderCell = useCallback((category: Category, columnKey: Key) => {
+    const cellValue = category[columnKey as keyof Category];
 
     switch (columnKey) {
       case "name":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{Category.name}</p>
+            <p className="text-bold text-small capitalize">{category.name}</p>
           </div>
         );
       case "productquantity":
         return (
           <div className="flex ">
             <p className="text-bold text-small capitalize">
-              {Category._count.products}
+              {category._count.products}
+            </p>
+          </div>
+        );
+      case "profitsBySell":
+        return (
+          <div className="flex ">
+            <p className="text-bold text-small capitalize">
+              {category.profitsBySell}
             </p>
           </div>
         );
@@ -206,7 +216,7 @@ export default function CategoryTable() {
         return (
           <div className="flex ">
             <p className="text-bold text-small capitalize">
-              {Category.profitsBySell}
+              {category.profitsBySell}
             </p>
           </div>
         );
@@ -214,7 +224,7 @@ export default function CategoryTable() {
         return (
           <div className="flex ">
             <p className="text-bold text-small capitalize">
-              {formatearFecha(Category.createdAt)}
+              {formatearFecha(category.createdAt)}
             </p>
           </div>
         );
@@ -223,22 +233,24 @@ export default function CategoryTable() {
           <div className="relative flex justify-center items-center gap-2">
             <Tooltip content="Edit Category" color="success">
               <button
-                onClick={() => handleEditCategory(Category)}
+                onClick={() => handleEditCategory(category)}
                 className="text-lg text-success cursor-pointer active:opacity-50"
               >
                 <EditIcon />
               </button>
             </Tooltip>
-            <Tooltip color="danger" content="Delete Category">
-              <button
-                onClick={() => {
-                  handleDelete(Category.id);
-                }}
-                className="text-lg text-danger cursor-pointer active:opacity-50"
-              >
-                <DeleteIcon />
-              </button>
-            </Tooltip>
+            {category._count.products === 0 && (
+              <Tooltip color="danger" content="Delete Category">
+                <button
+                  onClick={() => {
+                    handleDelete(category.id);
+                  }}
+                  className="text-lg text-danger cursor-pointer active:opacity-50"
+                >
+                  <DeleteIcon />
+                </button>
+              </Tooltip>
+            )}
           </div>
         ) : (
           <div className="relative flex justify-center items-center gap-2">
@@ -252,6 +264,7 @@ export default function CategoryTable() {
                 <EditIcon />
               </button>
             </Tooltip>
+
             <Tooltip color="danger" content="Delete Category">
               <button
                 onClick={() => {

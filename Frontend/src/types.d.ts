@@ -22,6 +22,7 @@ export interface Products {
   price: number;
   rating: number;
   imagen: string;
+  originImage: string;
   color?: string;
   ram: number;
   ratingAverage?: number;
@@ -105,10 +106,8 @@ export interface TransactionType {
   address: string;
   town: string;
   orderID: number | null;
-  paymentMethodId: string | undefined
+  paymentMethodId: string | undefined;
 }
-
-
 
 export interface Category {
   id: string;

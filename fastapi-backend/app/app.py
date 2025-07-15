@@ -70,7 +70,7 @@ async def send_message(message: str, transaction_id: str = None, payment_id: str
             response.raise_for_status()
             return response.json()
         except httpx.HTTPError as e:
-            raise HTTPException(status_code=500, detail=f"Error sending message to Telegram: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Error sending message to Telegram: {str(e)} {e}")
 
 @app.post("/send_message_bot")
 async def submit_form(form_data: FormData):
