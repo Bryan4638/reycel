@@ -104,7 +104,7 @@ export default function DrawerOrderView({ onClose, isOpen }: Props) {
       <Drawer
         isOpen={isOpen}
         size="5xl"
-        placement="left"
+        placement="right"
         backdrop="transparent"
         hideCloseButton
         onClose={onClose}
