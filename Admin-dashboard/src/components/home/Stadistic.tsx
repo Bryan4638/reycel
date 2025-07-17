@@ -7,7 +7,7 @@ import {
 import { CardGeneralData } from "./CardGeneralData";
 import { MonthlyEarnings } from "./MonthlyEarnings";
 import { PaymentStatus } from "./Paymnets/PaymentStatus";
-import { ProductAnalytics } from "./ProductAnalytics";
+//import { ProductAnalytics } from "./ProductAnalytics";
 import useAnalytics from "../../customHooks/useAnalytics";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -123,7 +123,7 @@ export default function Stadistic() {
           </div>
         </section>
 
-        <section className="pt-10">
+        {/* <section className="pt-10">
           <Card className="bg-neutral-200/50 pt-4">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               <ProductAnalytics />
@@ -132,7 +132,7 @@ export default function Stadistic() {
               <ProductAnalytics />
             </div>
           </Card>
-        </section>
+        </section> */}
       </section>
     </>
   );
