@@ -5,7 +5,10 @@ import cookieParser from "cookie-parser";
 import * as dotenv from "dotenv";
 import path from "path";
 import { io, server, app } from "./Libs/socketServer";
-import { startReservationCleanup, startSalesFactsRefresh } from "./Utils/cleanReservations";
+import {
+  startReservationCleanup,
+  startSalesFactsRefresh,
+} from "./Utils/cleanReservations";
 
 import auth from "./Routes/auth.routes";
 import product from "./Routes/product.routes";
@@ -21,12 +24,10 @@ import paymentMethod from "./Routes/paymentMethod.routes";
 import currencyExchange from "./Routes/currencyExchange.routes";
 import notification from "./Routes/notification.routes";
 import neworder from "./Routes/neworder.routes";
-import sedes from "./Routes/sedes.routes"
-import investments from "./Routes/investments.routes"
+import sedes from "./Routes/sedes.routes";
+import investments from "./Routes/investments.routes";
 
 import resetSalaryMouth from "./Utils/resetSalaryMouth";
-
-
 
 dotenv.config();
 const port = 4000;
@@ -38,9 +39,11 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5174",
       "http://localhost:8000",
-      "http://192.168.12.1:5173",
-      "http://192.168.12.1:5174",
+      "https://reycel.com",
+      "https://admin.reycel.com",
+      "https://bot.reycel.com",
     ],
+
     credentials: true,
   })
 );
@@ -66,13 +69,12 @@ app.use("/api", notification);
 app.use("/api", neworder);
 app.use("/api", investments);
 
-
 app.use("/public", express.static(path.join(__dirname, "/Upload")));
 
 server.listen(port, () => {
   console.log(`Server on port ${port}`);
   // Iniciar el programador de limpieza de reservas
   startReservationCleanup();
-  resetSalaryMouth()
-  startSalesFactsRefresh()
+  resetSalaryMouth();
+  startSalesFactsRefresh();
 });

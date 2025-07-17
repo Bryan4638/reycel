@@ -56,7 +56,9 @@ export const loginAdmin = async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: false,
       secure: true,
+      domain: '.reycel.com',
       sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
     });
 
     res.json({

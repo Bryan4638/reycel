@@ -117,7 +117,9 @@ export const login = async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: false,
       secure: true,
+      domain: '.reycel.com',
       sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
     });
 
     res.json({
@@ -167,7 +169,9 @@ export const logout = (req: Request, res: Response) => {
   res.cookie("token", "", {
     httpOnly: false,
     secure: true,
+    domain: '.reycel.com',
     sameSite: "none",
+    maxAge: 1000 * 60 * 60 * 24,
   });
   return res.status(200).json({ message: "logout" });
 };
@@ -208,7 +212,9 @@ export const confirmEmail = async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: false,
       secure: true,
+      domain: '.reycel.com',
       sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
     });
 
     res.json({
@@ -301,7 +307,9 @@ export const confirmResetPassword = async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: false,
       secure: true,
+      domain: '.reycel.com',
       sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
     });
 
     res.json({
