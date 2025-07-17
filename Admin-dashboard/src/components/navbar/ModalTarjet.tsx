@@ -2,7 +2,7 @@ import {
   Spinner,
   Tooltip,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useEffect, useState } from "react";
 import { PaymentMethod } from "../../type";
 import {

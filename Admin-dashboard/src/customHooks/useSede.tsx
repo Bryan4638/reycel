@@ -1,4 +1,4 @@
-import { Key, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { Sede } from "../type";
 import {
   createSedeRequest,
@@ -30,9 +30,9 @@ function useSede() {
     image: string,
     direction: string,
     phone: string,
-    workers: Key[]
+    rent: number
   ) => {
-    createSedeRequest({ image, direction, phone, workers })
+    createSedeRequest({ image, direction, phone, rent })
       .then((res) => {
         if (!sedes) {
           setSedes(res.data.data);
@@ -51,9 +51,9 @@ function useSede() {
     image: string,
     direction: string,
     phone: string,
-    workers: Key[]
+    rent: number
   ) => {
-    updateSedeRequest(id, { image, direction, phone, workers })
+    updateSedeRequest(id, { image, direction, phone, rent })
       .then((res) => {
         const index = sedes?.findIndex((sede) => sede.id === id);
         sedes?.splice(index as number, 1, res.data.sede);
@@ -81,6 +81,8 @@ function useSede() {
 
   return {
     sedes,
+    setSedes,
+    setError,
     error,
     loading,
     getSedes,

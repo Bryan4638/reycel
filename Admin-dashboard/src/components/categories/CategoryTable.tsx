@@ -25,7 +25,7 @@ import {
   Tooltip,
   // Spinner,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   ChevronDownIcon,
   DeleteIcon,
@@ -38,6 +38,7 @@ import useCategory from "../../customHooks/useCategory";
 import { Category } from "../../type";
 import { toast } from "sonner";
 import { deleteCategoryRequest } from "../../services/category";
+import { useAuth } from "../../context/AuthContext";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -50,13 +51,16 @@ export function Capitalize(s: string) {
 const columns = [
   { name: "NOMBRE", uid: "name", sortable: true },
   { name: "CANTIDAD DE PRODUCTOS", uid: "productquantity", sortable: true },
-  { name: "Fecha de Creación", uid: "createdAt", sortable: true },
+  { name: "GANACIA POR PRODUCTO", uid: "profitsBySell", sortable: true },
+  { name: "FECHA DE CREACION", uid: "createdAt", sortable: true },
+  { name: "GANANCIA POR VENTA DEL MODERADOR", uid: "profits" },
   { name: "ACTIONS", uid: "actions" },
 ];
 
 const INITIAL_VISIBLE_COLUMNS = [
   "name",
   "productquantity",
+  "profitsBySell",
   "createdAt",
   "actions",
 ];
@@ -64,6 +68,8 @@ const INITIAL_VISIBLE_COLUMNS = [
 export default function CategoryTable() {
   const { category, error, setCategory } = useCategory();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { user } = useAuth();
 
   const [filterValue, setFilterValue] = useState("");
 
@@ -180,21 +186,37 @@ export default function CategoryTable() {
       });
   };
 
-  const renderCell = useCallback((Category: Category, columnKey: Key) => {
-    const cellValue = Category[columnKey as keyof Category];
+  const renderCell = useCallback((category: Category, columnKey: Key) => {
+    const cellValue = category[columnKey as keyof Category];
 
     switch (columnKey) {
       case "name":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{Category.name}</p>
+            <p className="text-bold text-small capitalize">{category.name}</p>
           </div>
         );
       case "productquantity":
         return (
           <div className="flex ">
             <p className="text-bold text-small capitalize">
-              {Category._count.products}
+              {category._count.products}
+            </p>
+          </div>
+        );
+      case "profitsBySell":
+        return (
+          <div className="flex ">
+            <p className="text-bold text-small capitalize">
+              {category.profitsBySell}
+            </p>
+          </div>
+        );
+      case "profits":
+        return (
+          <div className="flex ">
+            <p className="text-bold text-small capitalize">
+              {category.profitsBySell}
             </p>
           </div>
         );
@@ -202,24 +224,52 @@ export default function CategoryTable() {
         return (
           <div className="flex ">
             <p className="text-bold text-small capitalize">
-              {formatearFecha(Category.createdAt)}
+              {formatearFecha(category.createdAt)}
             </p>
           </div>
         );
       case "actions":
-        return (
+        return user?.role === "OWNER" ? (
           <div className="relative flex justify-center items-center gap-2">
             <Tooltip content="Edit Category" color="success">
               <button
-                onClick={() => handleEditCategory(Category)}
+                onClick={() => handleEditCategory(category)}
                 className="text-lg text-success cursor-pointer active:opacity-50"
               >
                 <EditIcon />
               </button>
             </Tooltip>
+            {category._count.products === 0 && (
+              <Tooltip color="danger" content="Delete Category">
+                <button
+                  onClick={() => {
+                    handleDelete(category.id);
+                  }}
+                  className="text-lg text-danger cursor-pointer active:opacity-50"
+                >
+                  <DeleteIcon />
+                </button>
+              </Tooltip>
+            )}
+          </div>
+        ) : (
+          <div className="relative flex justify-center items-center gap-2">
+            <Tooltip content="Edit Category" color="success">
+              <button
+                onClick={() =>
+                  toast.error("Solo disponible para el Administrador")
+                }
+                className="text-lg text-success cursor-pointer active:opacity-50"
+              >
+                <EditIcon />
+              </button>
+            </Tooltip>
+
             <Tooltip color="danger" content="Delete Category">
               <button
-                onClick={() => handleDelete(Category.id)}
+                onClick={() => {
+                  toast.error("Solo disponible para el Administrador");
+                }}
                 className="text-lg text-danger cursor-pointer active:opacity-50"
               >
                 <DeleteIcon />
@@ -270,7 +320,7 @@ export default function CategoryTable() {
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+        <div className="flex flex-col sm:flex-row justify-between gap-3 items-end ">
           <Input
             isClearable
             color="success"
@@ -281,9 +331,9 @@ export default function CategoryTable() {
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
-          <div className="flex gap-3">
+          <div className="flex gap-3 w-full justify-center sm:w-auto ">
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger>
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
@@ -356,13 +406,14 @@ export default function CategoryTable() {
           total={pages}
           onChange={setPage}
         />
-        <div className="hidden sm:flex w-[30%] justify-end gap-2">
+        <div className=" justify-end gap-2">
           <Button
             isDisabled={pages === 1}
             size="md"
             variant="flat"
             onPress={onPreviousPage}
             color="danger"
+            className="mx-2"
           >
             Anterior
           </Button>

@@ -17,7 +17,7 @@ export const useFilterStore = create<Store>()((set) => ({
   filters: {},
   sortParmas: [],
   errorSerch: [],
-    setErrorSearch: (error) => set({ errorSerch: error }),
+  setErrorSearch: (error) => set({ errorSerch: error }),
   setQuerySeach: (query) => set({ querySeach: query }),
   setFilters: (filters) => set({ filters: filters }),
   setSortParmas: (sortParmas) => set({ sortParmas: sortParmas }),

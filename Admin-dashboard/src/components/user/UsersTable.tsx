@@ -27,16 +27,13 @@ import {
   SortDescriptor,
   Tooltip,
   Spinner,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { type User as Users } from "../../type";
-import {
-  ChevronDownIcon,
-  DeleteIcon,
-  SearchIcon,
-} from "../Icons";
+import { ChevronDownIcon, DeleteIcon, SearchIcon } from "../Icons";
 import useUser from "../../customHooks/useUser";
 import { toast } from "sonner";
 import { deleteUsersRequest } from "../../services/user";
+import { useAuth } from "../../context/AuthContext";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -69,6 +66,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 
 export default function UsersTable() {
   const { users, error, loading, setUsers } = useUser();
+  const { user } = useAuth();
 
   const [filterValue, setFilterValue] = useState("");
 
@@ -122,9 +120,8 @@ export default function UsersTable() {
     let filteredProducts = [...users];
 
     if (hasSearchFilter) {
-      filteredProducts = filteredProducts.filter(
-        (user) =>
-          user.username.toLowerCase().includes(filterValue.toLowerCase())
+      filteredProducts = filteredProducts.filter((user) =>
+        user.username.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     return filteredProducts;
@@ -159,7 +156,7 @@ export default function UsersTable() {
         setUsers((prev) => {
           return prev
             ? prev.filter((user) => {
-                return user.id !== id;
+                return user.userId !== id;
               })
             : null;
         });
@@ -170,14 +167,14 @@ export default function UsersTable() {
       });
   };
 
-  const renderCell = useCallback((user: Users, columnKey: Key) => {
-    const cellValue = user[columnKey as keyof Users];
+  const renderCell = useCallback((userr: Users, columnKey: Key) => {
+    const cellValue = userr[columnKey as keyof Users];
 
     switch (columnKey) {
       case "username":
         return (
           <User
-            avatarProps={{ radius: "lg", src: user.image }}
+            avatarProps={{ radius: "lg", src: userr.image }}
             name={
               <span
                 style={{
@@ -188,17 +185,17 @@ export default function UsersTable() {
                   whiteSpace: "nowrap",
                 }}
               >
-                {user.username}
+                {userr.username}
               </span>
             }
-            description={user.email}
+            description={userr.email}
           ></User>
         );
       case "createdAt": {
         return (
           <div className="flex justify-center">
             <p className={`text-bold text-small capitalize`}>
-              {formatearFecha(user.createdAt)}
+              {formatearFecha(userr.createdAt)}
             </p>
           </div>
         );
@@ -207,7 +204,7 @@ export default function UsersTable() {
         return (
           <div className="flex justify-center">
             <p className={`text-bold text-small capitalize`}>
-              {user.orderCount}
+              {userr.orderCount}
             </p>
           </div>
         );
@@ -217,7 +214,7 @@ export default function UsersTable() {
           <div className="w-full flex justify-center">
             <Chip
               className="capitalize"
-              color={statusColorMap[String(user.status)]}
+              color={statusColorMap[String(userr.status)]}
               size="sm"
               variant="flat"
             >
@@ -226,12 +223,25 @@ export default function UsersTable() {
           </div>
         );
       case "actions":
-        return (
+        return user?.role === "OWNER" ? (
           <div className="relative flex justify-center items-center gap-2">
             <Tooltip color="danger" content="Delete user">
               <button
                 onClick={() => {
-                  handleDelete(user.id);
+                  handleDelete(userr.userId);
+                }}
+                className="text-lg text-danger cursor-pointer active:opacity-50"
+              >
+                <DeleteIcon />
+              </button>
+            </Tooltip>
+          </div>
+        ) : (
+          <div className="relative flex justify-center items-center gap-2">
+            <Tooltip color="danger" content="Delete user">
+              <button
+                onClick={() => {
+                  toast.error("Solo disponible para el Administrador");
                 }}
                 className="text-lg text-danger cursor-pointer active:opacity-50"
               >
@@ -297,7 +307,7 @@ export default function UsersTable() {
           />
           <div className="flex gap-3">
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger className="">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
@@ -362,13 +372,14 @@ export default function UsersTable() {
           total={pages}
           onChange={setPage}
         />
-        <div className="hidden sm:flex w-[30%] justify-end gap-2">
+        <div className="justify-end gap-2">
           <Button
             isDisabled={pages === 1}
             size="md"
             variant="flat"
             onPress={onPreviousPage}
             color="danger"
+            className="mx-2"
           >
             Anterior
           </Button>
@@ -429,7 +440,7 @@ export default function UsersTable() {
           items={sortedItems}
         >
           {(item) => (
-            <TableRow key={item.id}>
+            <TableRow key={item.userId}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}

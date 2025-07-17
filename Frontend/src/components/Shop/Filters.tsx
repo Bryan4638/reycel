@@ -135,7 +135,7 @@ const Filters: FC<FiltersProps> = ({ categories, isOpen, toggle }) => {
 
               <Slider
                 className="max-w-md px-1 pt-3"
-                defaultValue={[0, 1800]}
+                defaultValue={[0, 100000]}
                 onChange={(value) => debounced(value as number[])}
                 formatOptions={{ style: "currency", currency: "USD" }}
                 label={
@@ -143,9 +143,9 @@ const Filters: FC<FiltersProps> = ({ categories, isOpen, toggle }) => {
                     Precio
                   </h6>
                 }
-                maxValue={2000}
+                maxValue={100000}
                 minValue={0}
-                step={100}
+                step={500}
               />
 
               <div className="grid grid-cols-2 gap-5 pt-3">

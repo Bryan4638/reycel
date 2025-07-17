@@ -17,7 +17,7 @@ export const createUsersRequest = (user: UserRequest) => {
 };
 
 export const editUsersRequest = (id: string, user: UserRequest) => {
-  return axios.put(`/user/${id}`, user);
+  return axios.put(`/worker/${id}`, user);
 };
 
 export const deleteUsersRequest = (id: string) => {

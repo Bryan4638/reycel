@@ -4,6 +4,7 @@ import axios from "./axios";
 interface PaymentMethod {
   cardImage: string;
   cardNumber?: string;
+  phoneNumber?: string;
   paymentOptions: PaymentOptions;
 }
 

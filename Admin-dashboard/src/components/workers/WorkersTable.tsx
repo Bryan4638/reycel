@@ -28,7 +28,7 @@ import {
   Tooltip,
   Spinner,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { Worker } from "../../type";
 import {
   ChevronDownIcon,
@@ -41,6 +41,7 @@ import { toast } from "sonner";
 import ModalAddWorker from "./ModalAddWorker";
 import useWorker from "../../customHooks/useWorker";
 import { deleteWorkersRequest } from "../../services/workers";
+import { useAuth } from "../../context/AuthContext";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -52,7 +53,8 @@ export function Capitalize(s: string) {
 
 const columns = [
   { name: "NOMBRE", uid: "username", sortable: true },
-  { name: "SALARIO", uid: "salary" },
+  { name: "SALARIO BASICO", uid: "salary" },
+  { name: "SALARIO DEL MES", uid: "mouthSalary" },
   { name: "CREADO EL ", uid: "createdAt", sortable: true },
   { name: "STATUS", uid: "status", sortable: true },
   { name: "# ORDENES", uid: "order" },
@@ -68,13 +70,14 @@ const INITIAL_VISIBLE_COLUMNS = [
   "username",
   "status",
   "actions",
-  "createdAt",
+  "mouthSalary",
   "order",
   "salary",
 ];
 
 export default function UsersTable() {
   const { workers, error, loading, setWorkers } = useWorker();
+  const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [filterValue, setFilterValue] = useState("");
@@ -213,14 +216,20 @@ export default function UsersTable() {
           ></User>
         );
       case "salary": {
-        return worker.role === "MODERATOR" ? (
+        return (
           <div className="flex justify-left">
             <span>$</span>
             <p className={`text-bold text-small capitalize`}>{worker.salary}</p>
           </div>
-        ) : (
-          <div className="flex justify-leftb ">
-            <p className={`text-bold text-small capitalize`}>ADMINISTRADOR</p>
+        );
+      }
+      case "mouthSalary": {
+        return (
+          <div className="flex justify-left">
+            <span>$</span>
+            <p className={`text-bold text-small capitalize`}>
+              {worker.mouthSalary}
+            </p>
           </div>
         );
       }
@@ -256,7 +265,7 @@ export default function UsersTable() {
           </div>
         );
       case "actions":
-        return (
+        return user?.role === "OWNER" ? (
           <div className="relative flex justify-center items-center gap-2">
             <Tooltip content="Edit worker" color="success">
               <button
@@ -270,6 +279,31 @@ export default function UsersTable() {
               <button
                 onClick={() => {
                   handleDelete(worker.id);
+                }}
+                className="text-lg text-danger cursor-pointer active:opacity-50"
+              >
+                <DeleteIcon />
+              </button>
+            </Tooltip>
+          </div>
+        ) : (
+          <div className="relative flex justify-center items-center gap-2">
+            <Tooltip content="Edit worker" color="success">
+              <button
+                onClick={() =>
+                  toast.error("Solo disponible para el Administrador")
+                }
+                className="text-lg text-success cursor-pointer active:opacity-50"
+                disabled
+              >
+                <EditIcon />
+              </button>
+            </Tooltip>
+            <Tooltip color="danger" content="Delete worker">
+              <button
+                disabled
+                onClick={() => {
+                  toast.error("Solo disponible para el Administrador");
                 }}
                 className="text-lg text-danger cursor-pointer active:opacity-50"
               >
@@ -322,7 +356,7 @@ export default function UsersTable() {
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+        <div className="flex flex-col sm:flex-row justify-between gap-3 items-end ">
           <Input
             isClearable
             color="primary"
@@ -333,9 +367,9 @@ export default function UsersTable() {
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
-          <div className="flex gap-3">
+          <div className="flex gap-3 w-full justify-center sm:w-auto ">
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger className="">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
@@ -408,13 +442,14 @@ export default function UsersTable() {
           total={pages}
           onChange={setPage}
         />
-        <div className="hidden sm:flex w-[30%] justify-end gap-2">
+        <div className="justify-end gap-2">
           <Button
             isDisabled={pages === 1}
             size="md"
             variant="flat"
             onPress={onPreviousPage}
             color="danger"
+            className="mx-2"
           >
             Anterior
           </Button>

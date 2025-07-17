@@ -26,15 +26,16 @@ export const getPaymentMethod = async (req: Request, res: Response) => {
 
 export const createPaymentMethod = async (req: Request, res: Response) => {
   try {
-    const { cardImage, cardNumber, paymentOptions } = req.body;
+    const { cardImage, cardNumber, phoneNumber, paymentOptions } = req.body;
 
-    console.table([cardImage, cardNumber, paymentOptions])
+    console.table([cardImage, cardNumber, paymentOptions]);
 
     const paymentMethod = await prisma.paymentMethod.create({
       data: {
         cardImage,
         paymentOptions,
         cardNumber,
+        phoneNumber: phoneNumber,
       },
       include: {
         _count: {
@@ -57,7 +58,7 @@ export const createPaymentMethod = async (req: Request, res: Response) => {
 export const updatePaymentMethod = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { cardImage, cardNumber, paymentOptions } = req.body;
+    const { cardImage, cardNumber, phoneNumber, paymentOptions } = req.body;
 
     const paymentMethod = await prisma.paymentMethod.update({
       where: {
@@ -67,6 +68,7 @@ export const updatePaymentMethod = async (req: Request, res: Response) => {
         cardImage: cardImage,
         paymentOptions,
         cardNumber: cardNumber,
+        phoneNumber: phoneNumber,
       },
       include: {
         _count: {

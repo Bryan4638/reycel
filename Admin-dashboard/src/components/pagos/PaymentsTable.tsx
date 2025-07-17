@@ -29,8 +29,8 @@ import {
   Tooltip,
   Spinner,
   useDisclosure,
-} from "@nextui-org/react";
-import { ChevronDownIcon, EditIcon, EyeIcon, SearchIcon } from "../Icons";
+} from "@heroui/react";
+import { ChevronDownIcon, EyeIcon, SearchIcon } from "../Icons";
 import usePayments from "../../customHooks/usePayments";
 import { Payment } from "../../type";
 import { toast } from "sonner";
@@ -259,11 +259,6 @@ export default function PaymentsTable() {
                   />
                 </span>
               </Tooltip>
-              <Tooltip content="Editar pago" color="warning">
-                <span className="text-lg text-warning cursor-pointer active:opacity-50">
-                  <EditIcon />
-                </span>
-              </Tooltip>
             </div>
           );
         default:
@@ -310,7 +305,7 @@ export default function PaymentsTable() {
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+        <div className="flex flex-col sm:flex-row justify-between gap-3 items-end">
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
@@ -321,9 +316,9 @@ export default function PaymentsTable() {
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
-          <div className="flex gap-3">
+          <div className="flex gap-3 w-full justify-center sm:w-auto ">
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger>
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
@@ -347,7 +342,7 @@ export default function PaymentsTable() {
               </DropdownMenu>
             </Dropdown>
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger >
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
@@ -416,13 +411,14 @@ export default function PaymentsTable() {
           total={pages}
           onChange={setPage}
         />
-        <div className="hidden sm:flex w-[30%] justify-end gap-2">
+        <div className=" justify-end gap-2">
           <Button
             isDisabled={pages === 1}
             size="md"
             variant="flat"
             onPress={onPreviousPage}
             color="danger"
+            className="mx-2"
           >
             Anterior
           </Button>

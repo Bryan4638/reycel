@@ -30,7 +30,7 @@ export default function Notifications({ isOpen, onOpen, onClose }: Notifications
     <>
       <Popover placement="bottom-end" isOpen={isOpenPopover} onOpenChange={(open) => setIsOpenPopover(open)}>
         <PopoverTrigger>
-          <button className="sm:p-2 flex items-center justify-center border-b-2 border-blue-500 border-opacity-0 hover:border-opacity-100 hover:text-blue-500 duration-200 cursor-pointer">
+          <button className="sm:p-2 flex items-center justify-center md:border-b-2 md:border-blue-500 md:border-opacity-0 hover:border-opacity-100 hover:text-blue-500 duration-200 cursor-pointer">
             <Badge
               color="danger"
               content={notificationsNotRead.length}

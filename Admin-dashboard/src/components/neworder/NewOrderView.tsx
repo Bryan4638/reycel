@@ -1,7 +1,11 @@
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 import { FC, useState } from "react";
-import { OrderItem } from "../../type";
-import { deleteOrderItemRequest } from "../../services/order";
+import { OrderAdd } from "../../type";
+import { toast } from "sonner";
+import {
+  deleteOrderItemRequest,
+  updateOrderItemRequest,
+} from "../../services/neworder";
 
 interface Product {
   quantity: number;
@@ -9,12 +13,9 @@ interface Product {
   name: string;
   price: number;
   id: string;
-  inventaryCount: number;
-  setError: (value: string[]) => void;
-  setOrder: React.Dispatch<React.SetStateAction<OrderItem[] | null>>;
-  setCount: React.Dispatch<React.SetStateAction<number>>;
-  setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
-  handleQuantity: (value: string, id: string, price: number) => void;
+  inventoryCount: number;
+  setOrder: (order: OrderAdd | null) => void;
+  setErrors: (errors: Array<string>) => void;
 }
 
 const NewOrderView: FC<Product> = ({
@@ -23,33 +24,36 @@ const NewOrderView: FC<Product> = ({
   name,
   quantity,
   price,
-  inventaryCount,
+  inventoryCount,
   setOrder,
-  setCount,
-  setTotalAmount,
-  setError,
-  handleQuantity,
+  setErrors,
 }) => {
   const [value, setvalue] = useState(`${quantity}`);
-  const [realPrice, setNewPrice] = useState(price);
+  const [realPrice] = useState(price);
+
+  console.log(inventoryCount);
 
   const handleOrderDelete = () => {
     deleteOrderItemRequest(id)
       .then((res) => {
-        setOrder((prev: OrderItem[] | null) => {
-          if (!prev) {
-            return null;
-          }
-          return prev?.filter((item) => item.id !== id);
-        });
-        setCount((count) => {
-          return count - 1;
-        });
-        setTotalAmount(res.data.data.totalAmount);
+        setOrder(res.data.data);
+        toast.success("Producto eliminado del carrito");
       })
       .catch((error) => {
         console.log(error);
-        setError(["Error al elimiar el producto del carrito"]);
+        setErrors(["Error al elimiar el producto del carrito"]);
+      });
+  };
+
+  const handleQuantity = (value: string, id: string, price: number) => {
+    updateOrderItemRequest(id, Number(value), price)
+      .then((res) => {
+        setOrder(res.data.data);
+        toast.success("Cantidad actualizado en el carrito");
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrors(["Error al actualizar el producto en el carrito"]);
       });
   };
 
@@ -72,10 +76,10 @@ const NewOrderView: FC<Product> = ({
             labelPlacement="outside"
             color="primary"
             value={value}
-            onValueChange={(event) => {
-              if (Number(event) > 0 && Number(value) < inventaryCount) {
-                setvalue(event);
-                handleQuantity(event, id, realPrice);
+            onValueChange={(value) => {
+              if (parseInt(value) > 0 && parseInt(value) <= inventoryCount) {
+                setvalue(value);
+                handleQuantity(value, id, realPrice);
               }
             }}
             type="number"

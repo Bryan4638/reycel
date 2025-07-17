@@ -27,7 +27,7 @@ import {
   Tooltip,
   useDisclosure,
   Spinner,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   ChevronDownIcon,
   DeleteIcon,
@@ -51,6 +51,7 @@ export function Capitalize(s: string) {
 const columns = [
   { name: "TARJETA", uid: "card", sortable: true },
   { name: "NÚMERO", uid: "number", sortable: true },
+  { name: "MOVIL A CONFIRMAR", uid: "movil", sortable: true },
   { name: "CANTIDAD DE PAGOS", uid: "payment", sortable: true },
   { name: "FECHA", uid: "createdAt", sortable: true },
   { name: "ACTIONS", uid: "actions" },
@@ -59,6 +60,7 @@ const columns = [
 const INITIAL_VISIBLE_COLUMNS = [
   "card",
   "number",
+  "movil",
   "payment",
   "createdAt",
   "actions",
@@ -198,6 +200,14 @@ export default function PaymentsMethodTable() {
               </p>
             </div>
           );
+          case "movil":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">
+                {paymentMethod.phoneNumber}
+              </p>
+            </div>
+          );
         case "payment":
           return (
             <div className="flex justify-center">
@@ -230,6 +240,7 @@ export default function PaymentsMethodTable() {
                       setSelectedPaymantMethod({
                         image: paymentMethod.cardImage,
                         numberCard: paymentMethod.cardNumber,
+                        phoneNumber: paymentMethod.phoneNumber,
                         selected: paymentMethod.paymentOptions,
                         id: paymentMethod.id,
                       });
@@ -294,7 +305,7 @@ export default function PaymentsMethodTable() {
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+        <div className="flex flex-col sm:flex-row justify-between gap-3 items-end">
           <Input
             isClearable
             color="success"
@@ -305,9 +316,9 @@ export default function PaymentsMethodTable() {
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
-          <div className="flex gap-3">
+          <div className="flex gap-3 w-full justify-center sm:w-auto">
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger >
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
@@ -382,13 +393,14 @@ export default function PaymentsMethodTable() {
           total={pages}
           onChange={setPage}
         />
-        <div className="hidden sm:flex w-[30%] justify-end gap-2">
+        <div className=" justify-end gap-2">
           <Button
             isDisabled={pages === 1}
             size="md"
             variant="flat"
             onPress={onPreviousPage}
             color="danger"
+            className="mx-2"
           >
             Anterior
           </Button>

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authMiddleware as authAdmin } from "../Middlewares/middlewareAdmin";
+import { authMiddleware as authAdmin, authModeratorMiddleware } from "../Middlewares/middlewareAdmin";
 
 import {
   createWorker,
@@ -16,7 +16,7 @@ router.get("/workers", authAdmin, getWorkersSedes);
 
 router.post("/worker", authAdmin, createWorker);
 
-router.put("/worker/:id", authAdmin, editWorker);
+router.put("/worker/:id", authModeratorMiddleware, editWorker);
 
 router.delete("/worker/:id", authAdmin, deleteWorker);
 

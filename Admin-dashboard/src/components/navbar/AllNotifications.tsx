@@ -5,7 +5,7 @@ import {
   DrawerBody,
   DrawerFooter,
   Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { FC } from "react";
 
 interface Props {

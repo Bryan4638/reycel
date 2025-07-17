@@ -27,12 +27,6 @@ export const loginAdmin = async (req: Request, res: Response) => {
           select: {
             id: true,
             role: true,
-            orders: {
-              select: {
-                id: true,
-                pending: true,
-              },
-            },
             notification: true,
             sede: {
               select: {
@@ -70,7 +64,6 @@ export const loginAdmin = async (req: Request, res: Response) => {
       userId: baseUser.administrator.id,
       image: baseUser.image,
       role: baseUser.administrator.role,
-      orderId: baseUser.administrator.orders,
       notifications: baseUser.administrator.notification.reverse(),
       sede: baseUser.administrator.sede?.direction
     });
@@ -96,7 +89,6 @@ export const verifyTokenAdmin = async (req: Request, res: Response) => {
       },
       select: {
         id: true,
-        orders: true,
         baseUser: true,
         notification: true,
         role: true,
@@ -117,7 +109,6 @@ export const verifyTokenAdmin = async (req: Request, res: Response) => {
       userId: administrator.id,
       image: administrator.baseUser.image,
       role: administrator.role,
-      orders: administrator.orders,
       notifications: administrator.notification.reverse(),
       sede: administrator.sede?.direction
     });

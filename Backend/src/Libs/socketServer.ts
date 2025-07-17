@@ -13,6 +13,8 @@ const io = new Server(server, {
       "http://localhost:8000",
       "http://192.168.227.249:8000",
       "https://q55z9fw0-5173.usw2.devtunnels.ms",
+      "http://192.168.12.1:5173",
+      "http://192.168.12.1:5174",
     ],
     credentials: true,
   },

@@ -1,55 +1,32 @@
 import { DonutChart, Legend } from "@tremor/react";
+import { AnalyticsTable } from "../../../type";
 
-const sales = [
-  {
-    name: "New York",
-    sales: 980,
-  },
-  {
-    name: "London",
-    sales: 456,
-  },
-  {
-    name: "Hong Kong",
-    sales: 390,
-  },
-  {
-    name: "San Francisco",
-    sales: 240,
-  },
-  {
-    name: "Singapore",
-    sales: 190,
-  },
-];
+interface PaymentProps {
+  chartData: AnalyticsTable[];
+  text: string;
+  category: string;
+}
 
-const valueFormatter = (number: number) =>
-  `$ ${Intl.NumberFormat("us").format(number).toString()}`;
-
-export function PaymentStatus() {
+export function PaymentStatus({ chartData, text, category }: PaymentProps) {
   return (
     <>
       <div className="flex flex-col items-center justify-center space-y-6 ">
         <div className="w-full flex justify-start">
-          <h3 className="text-black/50">Estados de los pagos</h3>
+          <h3 className="text-black/50">{text}</h3>
         </div>
 
         <DonutChart
-          data={sales}
-          category="sales"
+          data={chartData}
+          category={category}
           index="name"
-          valueFormatter={valueFormatter}
+          valueFormatter={(number: number) =>
+            `$${Intl.NumberFormat("us").format(number).toString()}`
+          }
           colors={["blue", "cyan", "indigo", "violet", "fuchsia"]}
           className="w-40"
         />
         <Legend
-          categories={[
-            "New York",
-            "London",
-            "Hong Kong",
-            "San Francisco",
-            "Singapore",
-          ]}
+          categories={chartData.map((item) => item.name)}
           colors={["blue", "cyan", "indigo", "violet", "fuchsia"]}
           className="max-w-xs"
         />

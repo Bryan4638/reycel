@@ -80,7 +80,7 @@ export const getUsers = async (req: Request, res: Response) => {
 
     res.json(
       clients.map((client) => ({
-        id: client.id,
+        userId: client.id,
         username: client.baseUser.username,
         image: client.baseUser.image,
         status: client.baseUser.status,
@@ -194,10 +194,10 @@ export const editUser = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { userId } = req.params;
 
     const client = await prisma.client.findUnique({
-      where: { id },
+      where: { id: userId },
       include: {
         baseUser: true,
       },

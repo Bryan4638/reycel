@@ -8,9 +8,9 @@ import {
   ModalFooter,
   ModalHeader,
   Spinner,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { FC, useState } from "react";
-import { BiRename } from "react-icons/bi";
+import { BiMoney, BiRename } from "react-icons/bi";
 import {
   createCategoryRequest,
   updateCategoryRequest,
@@ -21,6 +21,7 @@ import { toast } from "sonner";
 interface Props {
   id?: string;
   name?: string;
+  profitsBySell?: number;
   setCategory: React.Dispatch<React.SetStateAction<Category[] | null>>;
   isOpen: boolean;
   onClose: () => void;
@@ -29,6 +30,7 @@ interface Props {
 const ModalAddCategory: FC<Props> = ({
   id,
   name,
+  profitsBySell,
   isOpen,
   onClose,
   setCategory,
@@ -41,6 +43,7 @@ const ModalAddCategory: FC<Props> = ({
     const data = Object.fromEntries(new FormData(event.currentTarget));
 
     const inputName = data["name"] as string;
+    const inputProfits = parseInt(data["profits"] as string);
 
     if (!inputName) {
       toast.error("Debe poner un nombre a la categoría");
@@ -49,7 +52,7 @@ const ModalAddCategory: FC<Props> = ({
     }
 
     if (id) {
-      updateCategoryRequest(id, inputName)
+      updateCategoryRequest(id, inputName, inputProfits)
         .then((res) => {
           const category = res.data.data;
 
@@ -75,7 +78,7 @@ const ModalAddCategory: FC<Props> = ({
     }
 
     if (!id) {
-      createCategoryRequest(inputName)
+      createCategoryRequest(inputName, inputProfits)
         .then((res) => {
           const category = res.data.data;
 
@@ -117,6 +120,17 @@ const ModalAddCategory: FC<Props> = ({
                     }
                     label="Nombre"
                     placeholder="Inserte el Nombre de la categroría"
+                    variant="bordered"
+                    labelPlacement="outside"
+                  />
+                  <Input
+                    name="profits"
+                    defaultValue={profitsBySell?.toString()}
+                    endContent={
+                      <BiMoney className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    }
+                    label="Ganancias del Moderador por Venta"
+                    placeholder="Inserte la ganancia"
                     variant="bordered"
                     labelPlacement="outside"
                   />

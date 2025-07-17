@@ -1,4 +1,4 @@
-import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import ModalPricing from "./ModalPricing";
 import ModalTarjet from "./ModalTarjet";
 

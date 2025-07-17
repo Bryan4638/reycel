@@ -55,6 +55,21 @@ export const cleanExpiredReservations = async () => {
   }
 };
 
+const refreshSalesFacts = async () => {
+  try {
+    const now = new Date();
+    console.log(`Ejecutando actualización de sales_facts: ${now}`);
+
+    await prisma.$executeRaw`
+    CALL refresh_sales_facts ();
+    `
+
+    console.log("Actualización de sales_facts completada");
+  } catch (error) {
+    console.error("Error al actualizar sales_facts:", error);
+  }
+}
+
 // Ejecutar la limpieza cada 5 minutos
 export const startReservationCleanup = () => {
   cron.schedule("*/5 * * * *", async () => {
@@ -62,3 +77,12 @@ export const startReservationCleanup = () => {
   });
   console.log("Programador de limpieza de reservas iniciado");
 };
+
+// Ejecutar la actualización de sales_facts cada 5 minutos
+export const startSalesFactsRefresh = () => {
+  cron.schedule("0 2 * * *", async () => {
+    await refreshSalesFacts();
+  });
+  console.log("Programador de actualización de sales_facts iniciado");
+};
+

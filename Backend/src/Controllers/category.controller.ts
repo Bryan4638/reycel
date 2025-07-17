@@ -10,6 +10,7 @@ export const getCategory = async (req: Request, res: Response) => {
         id: true,
         name: true,
         createdAt: true,
+        profitsBySell: true,
         _count: {
           select: {
             products: true,
@@ -29,15 +30,17 @@ export const getCategory = async (req: Request, res: Response) => {
 
 export const createCategory = async (req: Request, res: Response) => {
   try {
-    const { name } = req.body;
+    const { name, profitsBySell } = req.body;
 
     const category = await prisma.category.create({
       data: {
         name,
+        profitsBySell,
       },
       select: {
         id: true,
         name: true,
+        profitsBySell: true,
         createdAt: true,
         _count: {
           select: {
@@ -58,7 +61,7 @@ export const createCategory = async (req: Request, res: Response) => {
 
 export const updateCategory = async (req: Request, res: Response) => {
   try {
-    const { name } = req.body;
+    const { name, profitsBySell } = req.body;
     const { id } = req.params;
 
     const category = await prisma.category.update({
@@ -67,10 +70,12 @@ export const updateCategory = async (req: Request, res: Response) => {
       },
       data: {
         name,
+        profitsBySell,
       },
       select: {
         id: true,
         name: true,
+        profitsBySell,
         createdAt: true,
         _count: {
           select: {

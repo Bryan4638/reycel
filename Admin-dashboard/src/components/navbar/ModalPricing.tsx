@@ -10,15 +10,24 @@ import {
   Spinner,
   Tooltip,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useCallback, useEffect, useState } from "react";
-import { editCurrency, getCurrency } from "../../services/currencyExchange";
+import {
+  addCurrency,
+  editCurrency,
+  getCurrency,
+} from "../../services/currencyExchange";
 import { toast } from "sonner";
 
 interface CurrencyExchange {
   id: string;
   cup: number;
   eur: number;
+  cad: number;
+  zelle: number;
+  gbp: number;
+  cupTransfer: number;
+  mlcTransfer: number;
   updatedAt: string;
 }
 
@@ -45,32 +54,62 @@ const ModalPricing = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!currencyExchange) {
-      toast.error("No sea podido actualizar la tasa de cambio.")
-      return
-    }
     setLoading(true);
     const data = Object.fromEntries(new FormData(event.currentTarget));
 
     const inputEur = parseFloat(data["eur"] as string);
-
+    const inputCad = parseFloat(data["cad"] as string);
+    const inputGbp = parseFloat(data["gbp"] as string);
+    const inputCupTransfer = parseFloat(data["cupTransfer"] as string);
+    const inputMlcTransfer = parseFloat(data["mlcTransfer"] as string);
+    const inputZelle = parseFloat(data["zelle"] as string);
     const inputCup = parseInt(data["cup"] as string);
 
-    console.table({inputEur, inputCup})
-
-    editCurrency(inputCup, inputEur, currencyExchange.id)
-      .then((res) => {
-        setCurrencyExchange(res.data.data);
-        console.log(res.data)
-        toast.success("Tasa de cambio actualizada.");
+    if (currencyExchange?.id !== undefined) {
+      editCurrency(currencyExchange.id, {
+        cad: inputCad,
+        eur: inputEur,
+        gbp: inputGbp,
+        cupTransfer: inputCupTransfer,
+        mlcTransfer: inputMlcTransfer,
+        zelle: inputZelle,
+        cup: inputCup,
       })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Error al actualizar la tasa de cambio.");
+        .then((res) => {
+          setCurrencyExchange(res.data.data);
+          console.log(res.data);
+          toast.success("Tasa de cambio actualizada.");
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Error al actualizar la tasa de cambio.");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      addCurrency({
+        cad: inputCad,
+        eur: inputEur,
+        gbp: inputGbp,
+        cupTransfer: inputCupTransfer,
+        mlcTransfer: inputMlcTransfer,
+        zelle: inputZelle,
+        cup: inputCup,
       })
-      .finally(() => {
-        setLoading(false);
-      });
+        .then((res) => {
+          setCurrencyExchange(res.data.data);
+          console.log(res.data);
+          toast.success("Tasa de cambio actualizada.");
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Error al actualizar la tasa de cambio.");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   const formatearFecha = useCallback((isoString: string) => {
@@ -108,8 +147,13 @@ const ModalPricing = () => {
             {loading && <Spinner color="warning" />}
             {!loading && currencyExchange && (
               <div className="flex flex-col items-center text-tiny justify-center font-medium">
-                <p>1 USD = {currencyExchange?.eur}</p>
-                <p>1 USD = {currencyExchange?.cup}</p>
+                <p>1 USD = {currencyExchange?.eur} EUR</p>
+                <p>1 USD = {currencyExchange?.cup} CUP</p>
+                <p>1 USD = {currencyExchange?.gbp} GBP</p>
+                <p>1 USD = {currencyExchange?.cad} CAD</p>
+                <p>1 USD = {currencyExchange?.zelle} Zelle</p>
+                <p>1 USD = {currencyExchange?.cupTransfer} CUP Transfer</p>
+                <p>1 USD = {currencyExchange?.mlcTransfer} MLC Transfer</p>
                 <span className="font-medium">
                   Fecha: {formatearFecha(currencyExchange?.updatedAt)}
                 </span>
@@ -143,7 +187,7 @@ const ModalPricing = () => {
         </div>
       </Tooltip>
 
-      <Modal backdrop={"opaque"} isOpen={isOpen} onClose={onClose} size="sm">
+      <Modal backdrop={"opaque"} isOpen={isOpen} onClose={onClose} size="xl">
         <ModalContent>
           {(onClose) => (
             <>
@@ -227,6 +271,201 @@ const ModalPricing = () => {
                       label="CUP"
                       defaultValue={String(currencyExchange?.cup)}
                       placeholder="CUP"
+                      variant="bordered"
+                      labelPlacement="outside"
+                    />
+                  </div>
+                  <div className="flex gap-4 min-w-full">
+                    <Input
+                      className="min-w-1/5"
+                      startContent={
+                        <span className="text-md text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      endContent={
+                        <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
+                          USD
+                        </span>
+                      }
+                      disabled
+                      label="USD"
+                      placeholder="1"
+                      variant="bordered"
+                      labelPlacement="outside"
+                    />
+                    <Input
+                      name="cad"
+                      className="min-w-1/5"
+                      startContent={
+                        <span className="text-md text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      endContent={
+                        <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
+                          CAD
+                        </span>
+                      }
+                      label="CAD"
+                      defaultValue={String(currencyExchange?.cad)}
+                      placeholder="CAD"
+                      variant="bordered"
+                      labelPlacement="outside"
+                    />
+                  </div>
+                  <div className="flex gap-4 min-w-full">
+                    <Input
+                      className="min-w-1/5"
+                      startContent={
+                        <span className="text-md text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      endContent={
+                        <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
+                          USD
+                        </span>
+                      }
+                      disabled
+                      label="USD"
+                      placeholder="1"
+                      variant="bordered"
+                      labelPlacement="outside"
+                    />
+                    <Input
+                      name="gbp"
+                      className="min-w-1/5"
+                      startContent={
+                        <span className="text-md text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      endContent={
+                        <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
+                          GBP
+                        </span>
+                      }
+                      label="GBP"
+                      defaultValue={String(currencyExchange?.gbp)}
+                      placeholder="GBP"
+                      variant="bordered"
+                      labelPlacement="outside"
+                    />
+                  </div>
+                  <div className="flex gap-4 min-w-full">
+                    <Input
+                      className="min-w-1/5"
+                      startContent={
+                        <span className="text-md text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      endContent={
+                        <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
+                          USD
+                        </span>
+                      }
+                      disabled
+                      label="USD"
+                      placeholder="1"
+                      variant="bordered"
+                      labelPlacement="outside"
+                    />
+                    <Input
+                      name="cupTransfer"
+                      className="min-w-1/5"
+                      startContent={
+                        <span className="text-md text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      endContent={
+                        <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
+                          CUP Transferencia
+                        </span>
+                      }
+                      label="CUP Transferencia"
+                      defaultValue={String(currencyExchange?.cupTransfer)}
+                      placeholder="CUP Transferencia"
+                      variant="bordered"
+                      labelPlacement="outside"
+                    />
+                  </div>
+                  <div className="flex gap-4 min-w-full">
+                    <Input
+                      className="min-w-1/5"
+                      startContent={
+                        <span className="text-md text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      endContent={
+                        <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
+                          USD
+                        </span>
+                      }
+                      disabled
+                      label="USD"
+                      placeholder="1"
+                      variant="bordered"
+                      labelPlacement="outside"
+                    />
+                    <Input
+                      name="mlcTransfer"
+                      className="min-w-1/5"
+                      startContent={
+                        <span className="text-md text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      endContent={
+                        <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
+                          MLC Transferencia
+                        </span>
+                      }
+                      label="MLC Transferencia"
+                      defaultValue={String(currencyExchange?.mlcTransfer)}
+                      placeholder="MLC Transferencia"
+                      variant="bordered"
+                      labelPlacement="outside"
+                    />
+                  </div>
+                  <div className="flex gap-4 min-w-full">
+                    <Input
+                      className="min-w-1/5"
+                      startContent={
+                        <span className="text-md text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      endContent={
+                        <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
+                          USD
+                        </span>
+                      }
+                      disabled
+                      label="USD"
+                      placeholder="1"
+                      variant="bordered"
+                      labelPlacement="outside"
+                    />
+                    <Input
+                      name="zelle"
+                      className="min-w-1/5"
+                      startContent={
+                        <span className="text-md text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      endContent={
+                        <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
+                          Zelle
+                        </span>
+                      }
+                      label="Zelle"
+                      placeholder="Zelle"
+                      defaultValue={String(currencyExchange?.zelle)}
                       variant="bordered"
                       labelPlacement="outside"
                     />

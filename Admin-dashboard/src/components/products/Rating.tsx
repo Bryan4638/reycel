@@ -7,7 +7,7 @@ interface Props {
 
 const Rating: FC<Props> = ({ ratingValue, setRatingValue }) => {
   return (
-    <div className=" ">
+    <div className="w-full ">
       <h2 className="mt-0 pt-0">Rating:</h2>
       <div className="flex items-center mt-2">
         <div className="flex text-yellow-500">
@@ -17,7 +17,7 @@ const Rating: FC<Props> = ({ ratingValue, setRatingValue }) => {
               onClick={() => {
                 setRatingValue(index + 1);
               }}
-              className={`size-8 fill-current hover:text-yellow-400 ${
+              className={`size-7 fill-current hover:text-yellow-400 ${
                 ratingValue > index ? "text-yellow-500" : "text-gray-300"
               }`}
               xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@ const Rating: FC<Props> = ({ ratingValue, setRatingValue }) => {
             </svg>
           ))}
         </div>
-        <span className="text-gray-600 ml-2">{ratingValue} de 5</span>
+        <span className="text-gray-600 text-md ml-2">{ratingValue} de 5</span>
       </div>
     </div>
   );

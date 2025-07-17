@@ -11,6 +11,15 @@ export const getSedes = async (req: Request, res: Response) => {
         direction: true,
         image: true,
         phone: true,
+        netProfits: true,
+        losses: true,
+        _count:{
+          select:{
+            producto: true
+          }
+        },
+        finalLosses: true,
+        rent: true,
         workers: {
           select: {
             baseUser: {
@@ -30,7 +39,7 @@ export const getSedes = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log("Error:", error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 
@@ -74,30 +83,17 @@ export const getSedeId = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log("Error:", error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 
 export const createSede = async (req: Request, res: Response) => {
-  const { phone, image, direction, workers } = req.body;
+  const { phone, image, direction, rent } = req.body;
 
   try {
-    if (!phone || !direction || !workers || !image) {
+    if (!phone || !direction || !image) {
       console.log("Datos inválidos o incompletos");
       return res.status(400).json({ error: "Datos inválidos o incompletos" });
-    }
-
-    const existingWorkers = await prisma.administrator.findMany({
-      where: {
-        id: { in: workers },
-      },
-    });
-
-    if (existingWorkers.length !== workers.length) {
-      console.log("Algunos trabajadores no existen o están inactivos");
-      return res
-        .status(404)
-        .json({ error: "Algunos trabajadores no existen o están inactivos" });
     }
 
     const newSede = await prisma.sede.create({
@@ -105,9 +101,7 @@ export const createSede = async (req: Request, res: Response) => {
         phone: parseInt(phone),
         image,
         direction,
-        workers: {
-          connect: workers.map((workerId: string) => ({ id: workerId })),
-        },
+        rent,
       },
       include: {
         workers: true,
@@ -127,29 +121,12 @@ export const createSede = async (req: Request, res: Response) => {
 
 export const updateSede = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { phone, image, direction, workers } = req.body;
+  const { phone, image, direction, rent } = req.body;
 
   try {
     const existingSede = await prisma.sede.findUnique({ where: { id } });
     if (!existingSede) {
       return res.status(404).json({ error: "Sede no encontrada" });
-    }
-
-    let connectedWorkers: Array<{ id: string }> = [];
-    if (workers && Array.isArray(workers)) {
-      const existingWorkers = await prisma.administrator.findMany({
-        where: {
-          id: { in: workers },
-        },
-      });
-
-      if (existingWorkers.length !== workers.length) {
-        return res
-          .status(404)
-          .json({ error: "Algunos trabajadores no existen o están inactivos" });
-      }
-
-      connectedWorkers = workers.map((workerId: string) => ({ id: workerId }));
     }
 
     const updatedSede = await prisma.sede.update({
@@ -158,13 +135,11 @@ export const updateSede = async (req: Request, res: Response) => {
         phone: parseInt(phone),
         image,
         direction,
-        workers: {
-          set: connectedWorkers,
-        },
+        rent,
       },
-      include:{
-        workers: true
-      }
+      include: {
+        workers: true,
+      },
     });
 
     return res.status(200).json({

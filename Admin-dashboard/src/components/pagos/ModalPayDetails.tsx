@@ -1,6 +1,5 @@
 import {
   Button,
-  Input,
   Modal,
   ModalBody,
   ModalContent,
@@ -14,7 +13,7 @@ import {
   TableHeader,
   TableRow,
   User,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { getOrderItemsRequest } from "../../services/order";
 import { OrderItem } from "../../type";
@@ -129,44 +128,6 @@ const ModalPayDetails: FC<Props> = ({ id, isOpen, onClose }) => {
                 <h1 className="text-2xl font-bold">Detalles del Pago</h1>
               </ModalHeader>
               <ModalBody>
-                <div className="w-full flex flex-col gap-2">
-                  <div className="flex w-full gap-2">
-                    <Input
-                      disabled
-                      name="town"
-                      labelPlacement="inside"
-                      label="Poblado"
-                      variant="flat"
-                      size="md"
-                    />
-                    <Input
-                      disabled
-                      name="address"
-                      labelPlacement="inside"
-                      label="Direccion"
-                      variant="flat"
-                      size="md"
-                    />
-                  </div>
-                  <div className="flex w-full gap-2">
-                    <Input
-                      disabled
-                      name="phone"
-                      labelPlacement="inside"
-                      label="Telefono"
-                      variant="flat"
-                      size="md"
-                    />
-                    <Input
-                      disabled
-                      name="transferenceId"
-                      labelPlacement="inside"
-                      label="ID Transferencia"
-                      variant="flat"
-                      size="md"
-                    />
-                  </div>
-                </div>
                 <Table
                   aria-label="Example table with custom cells"
                   shadow="none"

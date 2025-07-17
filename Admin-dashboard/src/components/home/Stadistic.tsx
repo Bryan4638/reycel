@@ -1,25 +1,37 @@
-import { Card, DateRangePicker } from "@tremor/react";
+import {
+  Card,
+  DateRangePicker,
+  DateRangePickerItem,
+  DateRangePickerValue,
+} from "@tremor/react";
 import { CardGeneralData } from "./CardGeneralData";
 import { MonthlyEarnings } from "./MonthlyEarnings";
 import { PaymentStatus } from "./Paymnets/PaymentStatus";
-import { ProductAnalytics } from "./ProductAnalytics";
+//import { ProductAnalytics } from "./ProductAnalytics";
 import useAnalytics from "../../customHooks/useAnalytics";
 import { toast } from "sonner";
-import { Spinner } from "@nextui-org/react";
+import { useState } from "react";
+import { es } from "date-fns/locale";
 
 export default function Stadistic() {
-  const { analytics, error, loading } = useAnalytics();
+  const [dateRange, setDateRange] = useState<DateRangePickerValue>({
+    from: new Date(new Date().getFullYear(), 0, 1),
+    to: new Date(new Date().getFullYear(), 11, 31),
+  });
+  const {
+    analytics,
+    error,
+    bestSellingProduct,
+    leastSellingProduct,
+    sedeWithMostSales,
+    sedeWithLeastSales,
+  } = useAnalytics({ value: dateRange });
 
   return (
     <>
       {error && toast.error(error)}
-      {loading && (
-        <div className="flex justify-center items-center h-screen">
-          <Spinner color="success" />
-        </div>
-      )}
-      <section className="pt-10 px-10">
-        <section className="w-full flex ">
+      <section className="px-2 ml-0 lg:px-5 lg:ml-5 pt-3">
+        <section className="grid gap-4 sm:grid-cols-2 ">
           {analytics?.dataProductsByMonth !== undefined && (
             <CardGeneralData
               title="Productos"
@@ -36,51 +48,91 @@ export default function Stadistic() {
               total={analytics.totalUser}
             />
           )}
-          {analytics?.dataCategoriesByMonth !== undefined && (
-            <CardGeneralData
-              title="Categorias"
-              chartdata={analytics?.dataCategoriesByMonth}
-              growth={Number(analytics.growthCategories)}
-              total={analytics.totalCategory}
-            />
-          )}
         </section>
+        <div className="flex justify-end items-center pt-6 pb-1">
+          <DateRangePicker
+            value={dateRange}
+            onValueChange={setDateRange}
+            locale={es}
+            selectPlaceholder="Seleccionar"
+            color="rose"
+          >
+            <DateRangePickerItem
+              key="lastYear"
+              value="lastYear"
+              from={new Date(new Date().getFullYear() - 1, 0, 1)}
+              to={new Date(new Date().getFullYear() - 1, 11, 31)}
+            >
+              Año anterior
+            </DateRangePickerItem>
+            <DateRangePickerItem
+              key="half"
+              value="half"
+              from={new Date(new Date().getFullYear(), 0, 1)}
+              to={new Date(new Date().getFullYear(), 11, 31)}
+            >
+              Año Presente
+            </DateRangePickerItem>
+          </DateRangePicker>
+        </div>
 
-        <section className="pt-10">
+        <section className="pt-5">
           <Card>
-            <MonthlyEarnings />
+            <MonthlyEarnings value={dateRange} />
           </Card>
         </section>
 
         <section className="pt-10 flex flex-col">
-          <div className="flex justify-end items-center">
-            <DateRangePicker className="max-w-md" />
-          </div>
-          <div className="pt-3 w-full flex justify-center items-center space-x-5">
-            <Card>
-              <PaymentStatus />
-            </Card>
-            <Card>
-              <PaymentStatus />
-            </Card>
-            <Card>
-              <PaymentStatus />
-            </Card>
+          <div className="pt-3 w-full grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {bestSellingProduct && (
+              <Card>
+                <PaymentStatus
+                  chartData={bestSellingProduct}
+                  text="Productos mas vendidos"
+                  category="total_revenue"
+                />
+              </Card>
+            )}
+            {leastSellingProduct && (
+              <Card>
+                <PaymentStatus
+                  chartData={leastSellingProduct}
+                  text="Productos menos vendidos"
+                  category="total_sold"
+                />
+              </Card>
+            )}
+            {sedeWithMostSales && (
+              <Card>
+                <PaymentStatus
+                  chartData={sedeWithMostSales}
+                  text="Sede con mas ventas"
+                  category="total_revenue"
+                />
+              </Card>
+            )}
+            {sedeWithLeastSales && (
+              <Card>
+                <PaymentStatus
+                  chartData={sedeWithLeastSales}
+                  text="Sede con menos ventas"
+                  category="total_revenue"
+                />
+              </Card>
+            )}
           </div>
         </section>
 
-        <section className="pt-10">
-          <Card className="bg-neutral-200/50  pt-4">
-            <div className="flex justify-end items-center">
-              <DateRangePicker className="max-w-md" />
-            </div>
-            <div className="flex justify-between items-center pt-4">
+        {/* <section className="pt-10">
+          <Card className="bg-neutral-200/50 pt-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <ProductAnalytics />
               <ProductAnalytics />
               <ProductAnalytics />
               <ProductAnalytics />
             </div>
           </Card>
-        </section>
+        </section> */}
       </section>
     </>
   );

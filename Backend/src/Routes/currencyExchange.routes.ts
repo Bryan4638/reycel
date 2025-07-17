@@ -1,7 +1,9 @@
 import { Router } from "express";
 import {authMiddleware as authAdmin} from '../Middlewares/middlewareAdmin'
-import { editCurrencyExchange, getCurrencyExchange } from "../Controllers/currencyExchange.controller";
+import { addCurrencyExchange, editCurrencyExchange, getCurrencyExchange } from "../Controllers/currencyExchange.controller";
 const router = Router();
+
+router.post("/addCurrency", authAdmin, addCurrencyExchange);
 
 router.put("/editCurrency/:id", authAdmin, editCurrencyExchange);
 

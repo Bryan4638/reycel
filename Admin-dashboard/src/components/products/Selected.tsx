@@ -1,4 +1,4 @@
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem } from "@heroui/react";
 import useCategory from "../../customHooks/useCategory";
 import { toast } from "sonner";
 import { FC } from "react";

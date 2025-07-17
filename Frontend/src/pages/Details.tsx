@@ -89,20 +89,20 @@ export default function Details() {
           <div className="flex flex-col md:grid md:grid-cols-2 md:justify-evenly">
             <div className="md:w-2/5 md:fixed md:left-20">
               <img
-                src={product.imagen}
+                src={product.originImage}
                 alt={product.name}
                 className="md:w-11/12 w-full rounded-lg"
               />
             </div>
             <div className="md:w-full md:pr-8 mt-4 md:mt-0 md:col-start-2">
               <h1 className="text-4xl font-semibold text-gray-800">
-                {product.category.name === "Moviles" && (
+                {product.category.name === "Smartphones" && (
                   <>
                     {`${product.name},  Ram ${product.ram}GB, Almacenamiento ${product.storage}GB `}
                   </>
                 )}
 
-                {product.category.name !== "Moviles" && (
+                {product.category.name !== "Smartphones" && (
                   <>{`${product.name} `}</>
                 )}
               </h1>

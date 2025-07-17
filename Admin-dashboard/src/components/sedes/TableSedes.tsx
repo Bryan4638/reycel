@@ -27,7 +27,7 @@ import {
   Tooltip,
   useDisclosure,
   Spinner,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   ChevronDownIcon,
   DeleteIcon,
@@ -39,6 +39,7 @@ import ModalAddSede from "./ModalAddSede";
 import useSede from "../../customHooks/useSede";
 import { Sede } from "../../type";
 import { toast } from "sonner";
+import { useAuth } from "../../context/AuthContext";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -51,15 +52,28 @@ export function Capitalize(s: string) {
 const columns = [
   { name: "IMAGEN", uid: "image", sortable: true },
   { name: "TELEFONO", uid: "phone", sortable: true },
+  { name: "RENTA", uid: "rent" },
+  { name: "PERDIDAS O INVERSIONES", uid: "losses" },
+  { name: "GANANCIA NETA SEMANAL", uid: "profits" },
   { name: "TRABAJADOR", uid: "worker", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
 
-const INITIAL_VISIBLE_COLUMNS = ["image", "phone", "worker", "actions"];
+const INITIAL_VISIBLE_COLUMNS = [
+  "image",
+  "phone",
+  "rent",
+  "profits",
+  "losses",
+  "worker",
+  "actions",
+];
 
 export default function TableSedes() {
   const { sedes, loading, error, addSede, deleteSede, updateSede, getSedes } =
     useSede();
+
+  const { user } = useAuth();
 
   const [selectSede, setSelectSede] = useState<Sede | undefined>(undefined);
 
@@ -160,12 +174,29 @@ export default function TableSedes() {
             <User
               avatarProps={{ radius: "lg", src: sede.image }}
               name={sede.direction}
+              description={sede.phone}
             />
           );
-        case "phone":
+        case "rent":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-small capitalize">{sede.phone}</p>
+              <p className="text-bold text-small capitalize">${sede.rent}</p>
+            </div>
+          );
+        case "losses":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">
+                ${sede.finalLosses}
+              </p>
+            </div>
+          );
+        case "profits":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">
+                ${sede.netProfits}
+              </p>
             </div>
           );
         case "worker":
@@ -178,7 +209,10 @@ export default function TableSedes() {
                     return (
                       <User
                         key={worker.id}
-                        avatarProps={{ radius: "lg", src: worker.baseUser.image }}
+                        avatarProps={{
+                          radius: "lg",
+                          src: worker.baseUser.image,
+                        }}
                         name={worker.baseUser.username}
                       />
                     );
@@ -190,7 +224,7 @@ export default function TableSedes() {
             </Tooltip>
           );
         case "actions":
-          return (
+          return user?.role === "OWNER" ? (
             <div className="relative flex justify-center items-center gap-2">
               <Tooltip content="Edit Sede" color="success">
                 <button
@@ -200,9 +234,34 @@ export default function TableSedes() {
                   <EditIcon />
                 </button>
               </Tooltip>
+              {sede._count.producto === 0 && sede.workers.length === 0 && (
+                <Tooltip color="danger" content="Delete Sede">
+                  <button
+                    onClick={handleDelete(sede.id)}
+                    className="text-lg text-danger cursor-pointer active:opacity-50"
+                  >
+                    <DeleteIcon />
+                  </button>
+                </Tooltip>
+              )}
+            </div>
+          ) : (
+            <div className="relative flex justify-center items-center gap-2">
+              <Tooltip content="Edit Sede" color="success">
+                <button
+                  onClick={() =>
+                    toast.error("Solo disponible para el administrador")
+                  }
+                  className="text-lg text-success cursor-pointer active:opacity-50"
+                >
+                  <EditIcon />
+                </button>
+              </Tooltip>
               <Tooltip color="danger" content="Delete Sede">
                 <button
-                  onClick={handleDelete(sede.id)}
+                  onClick={() =>
+                    toast.error("Solo disponible para el administrador")
+                  }
                   className="text-lg text-danger cursor-pointer active:opacity-50"
                 >
                   <DeleteIcon />
@@ -214,7 +273,7 @@ export default function TableSedes() {
           return String(cellValue);
       }
     },
-    [handleDelete, handleEditSede]
+    [handleDelete, handleEditSede, user?.role]
   );
 
   const onNextPage = useCallback(() => {
@@ -254,7 +313,7 @@ export default function TableSedes() {
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+        <div className="flex flex-col sm:flex-row justify-between gap-3 items-end">
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
@@ -264,9 +323,9 @@ export default function TableSedes() {
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
-          <div className="flex gap-3">
+          <div className="flex gap-3 w-full justify-center sm:w-auto">
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger>
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
@@ -338,13 +397,14 @@ export default function TableSedes() {
           total={pages}
           onChange={setPage}
         />
-        <div className="hidden sm:flex w-[30%] justify-end gap-2">
+        <div className=" justify-end gap-2">
           <Button
             isDisabled={pages === 1}
             size="md"
             variant="flat"
             onPress={onPreviousPage}
             color="danger"
+            className="mx-2"
           >
             Anterior
           </Button>

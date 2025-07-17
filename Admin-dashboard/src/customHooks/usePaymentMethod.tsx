@@ -48,12 +48,14 @@ function usePaymentMethod() {
     image,
     numberCard,
     selected,
+    phoneNumber,
   }: AddPaymentMethodProps): Promise<void> => {
     return new Promise((resolve, reject) => {
       createPaymentMethodRequest({
         cardImage: image,
         cardNumber: numberCard,
         paymentOptions: selected,
+        phoneNumber: phoneNumber,
       })
         .then((res) => {
           if (paymentMethod) {
@@ -72,13 +74,14 @@ function usePaymentMethod() {
 
   const updatePaymentMethod = (
     id: string,
-    { image, numberCard, selected }: AddPaymentMethodProps
+    { image, numberCard, selected, phoneNumber }: AddPaymentMethodProps
   ): Promise<void> => {
     return new Promise((resolve, reject) => {
       updatePaymentMethodRequest(id, {
         cardImage: image,
         cardNumber: numberCard,
         paymentOptions: selected,
+        phoneNumber: phoneNumber,
       })
         .then((res) => {
           setPaymentMethod((prevState) => {

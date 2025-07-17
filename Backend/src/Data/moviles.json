@@ -4,426 +4,487 @@
     "ram": 2,
     "almacenamiento": 32,
     "precio": 130,
-    "urlImagen": "https://m.media-amazon.com/images/I/61q16ei5uDL._AC_UY218_.jpg"
+    "urlImagen": "https://m.media-amazon.com/images/I/61q16ei5uDL._AC_UY218_.jpg",
+    "investment": 81
   },
   {
     "nombre": "ZTE A34",
     "ram": 4,
     "almacenamiento": 64,
     "precio": 150,
-    "urlImagen": "https://m.media-amazon.com/images/I/513KirjU3cL._AC_UY218_.jpg"
+    "urlImagen": "https://m.media-amazon.com/images/I/513KirjU3cL._AC_UY218_.jpg",
+    "investment": 94
   },
   {
     "nombre": "ZTE A51",
     "ram": 2,
     "almacenamiento": 32,
     "precio": 140,
-    "urlImagen": "https://m.media-amazon.com/images/I/51WKbTifBNL._AC_UY218_.jpg"
+    "urlImagen": "https://m.media-amazon.com/images/I/51WKbTifBNL._AC_UY218_.jpg",
+    "investment": 88
   },
   {
     "nombre": "ZTE A51s",
     "ram": 3,
     "almacenamiento": 64,
     "precio": 150,
-    "urlImagen": "https://m.media-amazon.com/images/I/51WKbTifBNL._AC_UY218_.jpg"
+    "urlImagen": "https://m.media-amazon.com/images/I/51WKbTifBNL._AC_UY218_.jpg",
+    "investment": 94
   },
   {
     "nombre": "ZTE A52",
     "ram": 3,
     "almacenamiento": 64,
     "precio": 150,
-    "urlImagen": "https://m.media-amazon.com/images/I/51oW227g27L._AC_UY218_.jpg"
+    "urlImagen": "https://m.media-amazon.com/images/I/51oW227g27L._AC_UY218_.jpg",
+    "investment": 94
   },
   {
     "nombre": "ZTE V40",
     "ram": 6,
     "almacenamiento": 128,
     "precio": 180,
-    "urlImagen": "https://m.media-amazon.com/images/I/710rZ0gVlcL._AC_UY218_.jpg"
+    "urlImagen": "https://m.media-amazon.com/images/I/710rZ0gVlcL._AC_UY218_.jpg",
+    "investment": 113
   },
   {
     "nombre": "Redmi A1",
     "ram": 2,
     "almacenamiento": 32,
     "precio": 130,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBGQYyD3mksUWDNd0PW4uVhLGF2TbfjIAYbw&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBGQYyD3mksUWDNd0PW4uVhLGF2TbfjIAYbw&s",
+    "investment": 81
   },
   {
     "nombre": "Redmi A1+",
     "ram": 2,
     "almacenamiento": 32,
     "precio": 140,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvYxJaH1noX8QHMFTaTyuinWY5v1hiY93zuQ&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvYxJaH1noX8QHMFTaTyuinWY5v1hiY93zuQ&s",
+    "investment": 88
   },
   {
     "nombre": "Redmi A2",
     "ram": 2,
     "almacenamiento": 32,
     "precio": 140,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggvkxoQXaZj9AjR6F2YYlLDBCfrCHSySf2FeJe1EcFqGMOPY0BoIDYMpIFlvepXFdnbw&usqp=CAU"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggvkxoQXaZj9AjR6F2YYlLDBCfrCHSySf2FeJe1EcFqGMOPY0BoIDYMpIFlvepXFdnbw&usqp=CAU",
+    "investment": 88
   },
   {
     "nombre": "Redmi A2+",
     "ram": 2,
     "almacenamiento": 32,
     "precio": 145,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggvkxoQXaZj9AjR6F2YYlLDBCfrCHSySf2FeJe1EcFqGMOPY0BoIDYMpIFlvepXFdnbw&usqp=CAU"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggvkxoQXaZj9AjR6F2YYlLDBCfrCHSySf2FeJe1EcFqGMOPY0BoIDYMpIFlvepXFdnbw&usqp=CAU",
+    "investment": 91
   },
   {
     "nombre": "Redmi A2",
     "ram": 2,
     "almacenamiento": 64,
     "precio": 150,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggvkxoQXaZj9AjR6F2YYlLDBCfrCHSySf2FeJe1EcFqGMOPY0BoIDYMpIFlvepXFdnbw&usqp=CAU"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggvkxoQXaZj9AjR6F2YYlLDBCfrCHSySf2FeJe1EcFqGMOPY0BoIDYMpIFlvepXFdnbw&usqp=CAU",
+    "investment": 94
   },
   {
     "nombre": "Redmi A2+",
     "ram": 3,
     "almacenamiento": 64,
     "precio": 160,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggvkxoQXaZj9AjR6F2YYlLDBCfrCHSySf2FeJe1EcFqGMOPY0BoIDYMpIFlvepXFdnbw&usqp=CAU"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggvkxoQXaZj9AjR6F2YYlLDBCfrCHSySf2FeJe1EcFqGMOPY0BoIDYMpIFlvepXFdnbw&usqp=CAU",
+    "investment": 100
   },
   {
     "nombre": "Redmi A3",
     "ram": 3,
     "almacenamiento": 64,
     "precio": 160,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJkdFJ8KGut2rC6PHFmM2u81T7h4oPnLv2Knh__91rJMpniVvdDpGeditiuVKVWnN_rO0&usqp=CAU"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJkdFJ8KGut2rC6PHFmM2u81T7h4oPnLv2Knh__91rJMpniVvdDpGeditiuVKVWnN_rO0&usqp=CAU",
+    "investment": 100
   },
   {
     "nombre": "Redmi A3",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 170,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJkdFJ8KGut2rC6PHFmM2u81T7h4oPnLv2Knh__91rJMpniVvdDpGeditiuVKVWnN_rO0&usqp=CAU"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJkdFJ8KGut2rC6PHFmM2u81T7h4oPnLv2Knh__91rJMpniVvdDpGeditiuVKVWnN_rO0&usqp=CAU",
+    "investment": 106
   },
   {
     "nombre": "Redmi 9A",
     "ram": 2,
     "almacenamiento": 32,
     "precio": 140,
-    "urlImagen": "https://http2.mlstatic.com/D_NQ_NP_996743-MLA48765111834_012022-O.webp"
+    "urlImagen": "https://http2.mlstatic.com/D_NQ_NP_996743-MLA48765111834_012022-O.webp",
+    "investment": 88
   },
   {
     "nombre": "Redmi 9A",
     "ram": 4,
     "almacenamiento": 64,
     "precio": 160,
-    "urlImagen": "https://http2.mlstatic.com/D_NQ_NP_996743-MLA48765111834_012022-O.webp"
+    "urlImagen": "https://http2.mlstatic.com/D_NQ_NP_996743-MLA48765111834_012022-O.webp",
+    "investment": 100
   },
   {
     "nombre": "Resmi 10A",
     "ram": 3,
     "almacenamiento": 64,
     "precio": 160,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQci2zQWXgFxej9eQHzKvAk4tOZLdDu-HvJkg&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQci2zQWXgFxej9eQHzKvAk4tOZLdDu-HvJkg&s",
+    "investment": 100
   },
   {
     "nombre": "Redmi 10A",
     "ram": 4,
     "almacenamiento": 64,
     "precio": 160,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQci2zQWXgFxej9eQHzKvAk4tOZLdDu-HvJkg&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQci2zQWXgFxej9eQHzKvAk4tOZLdDu-HvJkg&s",
+    "investment": 100
   },
   {
     "nombre": "Redmi 10C",
     "ram": 3,
     "almacenamiento": 64,
     "precio": 160,
-    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2022/09/xiaomi-redmi-10c-4gb-64gb-6.7-dual-sim-smartphone.jpg"
+    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2022/09/xiaomi-redmi-10c-4gb-64gb-6.7-dual-sim-smartphone.jpg",
+    "investment": 100
   },
   {
     "nombre": "Redmi 10C",
     "ram": 4,
     "almacenamiento": 64,
     "precio": 180,
-    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2022/09/xiaomi-redmi-10c-4gb-64gb-6.7-dual-sim-smartphone.jpg"
+    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2022/09/xiaomi-redmi-10c-4gb-64gb-6.7-dual-sim-smartphone.jpg",
+    "investment": 113
   },
   {
     "nombre": "Redmi 12C",
     "ram": 3,
     "almacenamiento": 64,
     "precio": 170,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpAgWGr_e1i48-twN7xdrCVXpNdxBy6VYHWA&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpAgWGr_e1i48-twN7xdrCVXpNdxBy6VYHWA&s",
+    "investment": 106
   },
   {
     "nombre": "Redmi 12C",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 190,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpAgWGr_e1i48-twN7xdrCVXpNdxBy6VYHWA&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpAgWGr_e1i48-twN7xdrCVXpNdxBy6VYHWA&s",
+    "investment": 119
   },
   {
     "nombre": "Redmi 12C",
     "ram": 6,
     "almacenamiento": 128,
     "precio": 200,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpAgWGr_e1i48-twN7xdrCVXpNdxBy6VYHWA&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpAgWGr_e1i48-twN7xdrCVXpNdxBy6VYHWA&s",
+    "investment": 125
   },
   {
     "nombre": "Redmi Note 11",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 200,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa6sKdz-3jOkb2TGmz9RaXC2UkEqiPZzcURQ&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa6sKdz-3jOkb2TGmz9RaXC2UkEqiPZzcURQ&s",
+    "investment": 125
   },
   {
     "nombre": "Redmi Note 11",
     "ram": 6,
     "almacenamiento": 128,
     "precio": 220,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa6sKdz-3jOkb2TGmz9RaXC2UkEqiPZzcURQ&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa6sKdz-3jOkb2TGmz9RaXC2UkEqiPZzcURQ&s",
+    "investment": 138
   },
   {
     "nombre": "Redmi Note 11R",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 200,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0zDokT4a9oWTdcRwYss9Tk4hRbdj_RVA8qg&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0zDokT4a9oWTdcRwYss9Tk4hRbdj_RVA8qg&s",
+    "investment": 125
   },
   {
     "nombre": "Redmi Note 11E",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 200,
-    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2022/09/Xiaomi-Redmi-Note-11E-768.jpg"
+    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2022/09/Xiaomi-Redmi-Note-11E-768.jpg",
+    "investment": 125
   },
   {
     "nombre": "Redmi 12",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 220,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBof1v9TQqNrtMrR1xMW9DDQxTUubyf1lZ-w&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBof1v9TQqNrtMrR1xMW9DDQxTUubyf1lZ-w&s",
+    "investment": 138
   },
   {
     "nombre": "Redmi 12",
     "ram": 8,
     "almacenamiento": 128,
     "precio": 250,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBof1v9TQqNrtMrR1xMW9DDQxTUubyf1lZ-w&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBof1v9TQqNrtMrR1xMW9DDQxTUubyf1lZ-w&s",
+    "investment": 156
   },
   {
     "nombre": "Redmi 12",
     "ram": 8,
     "almacenamiento": 256,
     "precio": 260,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBof1v9TQqNrtMrR1xMW9DDQxTUubyf1lZ-w&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBof1v9TQqNrtMrR1xMW9DDQxTUubyf1lZ-w&s",
+    "investment": 163
   },
   {
     "nombre": "Redmi Note 12",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 260,
-    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2023/04/x1000070707-510x510.jpg.pagespeed.ic.xmPKnZf7uB.jpg"
+    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2023/04/x1000070707-510x510.jpg.pagespeed.ic.xmPKnZf7uB.jpg",
+    "investment": 163
   },
   {
     "nombre": "Redmi Note 12",
     "ram": 6,
     "almacenamiento": 128,
     "precio": 280,
-    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2023/04/x1000070707-510x510.jpg.pagespeed.ic.xmPKnZf7uB.jpg"
+    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2023/04/x1000070707-510x510.jpg.pagespeed.ic.xmPKnZf7uB.jpg",
+    "investment": 175
   },
   {
     "nombre": "Redmi Note 12",
     "ram": 8,
     "almacenamiento": 256,
     "precio": 300,
-    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2023/04/x1000070707-510x510.jpg.pagespeed.ic.xmPKnZf7uB.jpg"
+    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2023/04/x1000070707-510x510.jpg.pagespeed.ic.xmPKnZf7uB.jpg",
+    "investment": 188
   },
   {
     "nombre": "Redmi 12R",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 200,
-    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2024/08/958e95e6-be0c-4a07-b0de-8f3704826730.63ad07bfc1530dbd9ba3a6e263879d00.webp"
+    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2024/08/958e95e6-be0c-4a07-b0de-8f3704826730.63ad07bfc1530dbd9ba3a6e263879d00.webp",
+    "investment": 125
   },
   {
     "nombre": "Redmi Note 12S",
     "ram": 8,
     "almacenamiento": 256,
     "precio": 300,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpVOFcShKpd9UTbXgjaIwohvuzTll6NSqXlw&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpVOFcShKpd9UTbXgjaIwohvuzTll6NSqXlw&s",
+    "investment": 188
   },
   {
     "nombre": "Redmi 13C",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 200,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAV0rNm2519QUGTzjTIVMnqoMNEPgyRQ9bg&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAV0rNm2519QUGTzjTIVMnqoMNEPgyRQ9bg&s",
+    "investment": 125
   },
   {
     "nombre": "Redmi 13C",
     "ram": 6,
     "almacenamiento": 128,
     "precio": 220,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAV0rNm2519QUGTzjTIVMnqoMNEPgyRQ9bg&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAV0rNm2519QUGTzjTIVMnqoMNEPgyRQ9bg&s",
+    "investment": 138
   },
   {
     "nombre": "Redmi 13C",
     "ram": 4,
     "almacenamiento": 256,
     "precio": 230,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAV0rNm2519QUGTzjTIVMnqoMNEPgyRQ9bg&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAV0rNm2519QUGTzjTIVMnqoMNEPgyRQ9bg&s",
+    "investment": 144
   },
   {
     "nombre": "Redmi 13C",
     "ram": 8,
     "almacenamiento": 256,
     "precio": 240,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAV0rNm2519QUGTzjTIVMnqoMNEPgyRQ9bg&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSAV0rNm2519QUGTzjTIVMnqoMNEPgyRQ9bg&s",
+    "investment": 150
   },
   {
     "nombre": "Redmi Note13",
     "ram": 6,
     "almacenamiento": 128,
     "precio": 280,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwr7hzvqD1UNJTOoyDpqVaF2QVl4d2XCNkwA&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwr7hzvqD1UNJTOoyDpqVaF2QVl4d2XCNkwA&s",
+    "investment": 175
   },
   {
     "nombre": "Redmi Note13",
     "ram": 8,
     "almacenamiento": 256,
     "precio": 320,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwr7hzvqD1UNJTOoyDpqVaF2QVl4d2XCNkwA&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwr7hzvqD1UNJTOoyDpqVaF2QVl4d2XCNkwA&s",
+    "investment": 200
   },
   {
     "nombre": "Redmi Note13 PRO",
     "ram": 8,
     "almacenamiento": 256,
     "precio": 400,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV46PliOOQP1Shy3SXrFtoFAoY1Q46x45o_g&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV46PliOOQP1Shy3SXrFtoFAoY1Q46x45o_g&s",
+    "investment": 250
   },
   {
     "nombre": "Redmi Note13R Pro",
     "ram": 12,
     "almacenamiento": 256,
     "precio": 420,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV46PliOOQP1Shy3SXrFtoFAoY1Q46x45o_g&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV46PliOOQP1Shy3SXrFtoFAoY1Q46x45o_g&s",
+    "investment": 263
   },
   {
     "nombre": "Redmi Note13 PRO+",
     "ram": 12,
     "almacenamiento": 512,
     "precio": 450,
-    "urlImagen": "https://i.blogs.es/0bc932/41f5k6-oxml._sl500_/original.jpeg"
+    "urlImagen": "https://i.blogs.es/0bc932/41f5k6-oxml._sl500_/original.jpeg",
+    "investment": 281
   },
   {
     "nombre": "Samsung A03Core",
     "ram": 2,
     "almacenamiento": 32,
     "precio": 150,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8KdLb1Xk-A-_aHlPFQ-wtvEbOeC8mwr1wnQ&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8KdLb1Xk-A-_aHlPFQ-wtvEbOeC8mwr1wnQ&s",
+    "investment": 94
   },
   {
     "nombre": "Samsung A03s",
     "ram": 3,
     "almacenamiento": 32,
     "precio": 170,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGqo-jub8xU5d2Zv1SnKlNSyh0mjyW8f_Eew&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGqo-jub8xU5d2Zv1SnKlNSyh0mjyW8f_Eew&s",
+    "investment": 106
   },
   {
     "nombre": "Samsung A03s",
     "ram": 4,
     "almacenamiento": 64,
     "precio": 185,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGqo-jub8xU5d2Zv1SnKlNSyh0mjyW8f_Eew&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGqo-jub8xU5d2Zv1SnKlNSyh0mjyW8f_Eew&s",
+    "investment": 116
   },
   {
     "nombre": "Samsung A04",
     "ram": 3,
     "almacenamiento": 32,
     "precio": 160,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlqQb1os7cVvCkCm-mdKG8iU9c8N0Pz9cmGQ&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlqQb1os7cVvCkCm-mdKG8iU9c8N0Pz9cmGQ&s",
+    "investment": 100
   },
   {
     "nombre": "Samsung A04",
     "ram": 4,
     "almacenamiento": 64,
     "precio": 180,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlqQb1os7cVvCkCm-mdKG8iU9c8N0Pz9cmGQ&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlqQb1os7cVvCkCm-mdKG8iU9c8N0Pz9cmGQ&s",
+    "investment": 113
   },
   {
     "nombre": "Samsung A04E",
     "ram": 3,
     "almacenamiento": 32,
     "precio": 165,
-    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2024/02/Celular-Samsung-Galaxy-A04e-Negro-64-3gb-6-5-A042mzkfaro-2-41015.webp"
+    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2024/02/Celular-Samsung-Galaxy-A04e-Negro-64-3gb-6-5-A042mzkfaro-2-41015.webp",
+    "investment": 103
   },
   {
     "nombre": "Samsung A04E",
     "ram": 4,
     "almacenamiento": 64,
     "precio": 180,
-    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2024/02/Celular-Samsung-Galaxy-A04e-Negro-64-3gb-6-5-A042mzkfaro-2-41015.webp"
+    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2024/02/Celular-Samsung-Galaxy-A04e-Negro-64-3gb-6-5-A042mzkfaro-2-41015.webp",
+    "investment": 113
   },
   {
     "nombre": "Samsung A04E",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 200,
-    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2024/02/Celular-Samsung-Galaxy-A04e-Negro-64-3gb-6-5-A042mzkfaro-2-41015.webp"
+    "urlImagen": "https://expresssolutionscuba.com/wp-content/uploads/2024/02/Celular-Samsung-Galaxy-A04e-Negro-64-3gb-6-5-A042mzkfaro-2-41015.webp",
+    "investment": 125
   },
   {
     "nombre": "Samsung A05",
     "ram": 4,
     "almacenamiento": 64,
     "precio": 200,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCoMO6LmBBBZ9zBu-dE-F3Gl3S40kK-KAJcA&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCoMO6LmBBBZ9zBu-dE-F3Gl3S40kK-KAJcA&s",
+    "investment": 125
   },
   {
     "nombre": "Samsung A05",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 220,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCoMO6LmBBBZ9zBu-dE-F3Gl3S40kK-KAJcA&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCoMO6LmBBBZ9zBu-dE-F3Gl3S40kK-KAJcA&s",
+    "investment": 138
   },
   {
     "nombre": "Samsung A05s",
     "ram": 4,
     "almacenamiento": 64,
     "precio": 230,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIVLSzhGPgR2ps1Glfd4ki5InOTbQfrZdzZw&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIVLSzhGPgR2ps1Glfd4ki5InOTbQfrZdzZw&s",
+    "investment": 144
   },
   {
     "nombre": "Samsung A05s",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 240,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIVLSzhGPgR2ps1Glfd4ki5InOTbQfrZdzZw&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIVLSzhGPgR2ps1Glfd4ki5InOTbQfrZdzZw&s",
+    "investment": 150
   },
   {
     "nombre": "Samsung A05s",
     "ram": 6,
     "almacenamiento": 128,
     "precio": 250,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIVLSzhGPgR2ps1Glfd4ki5InOTbQfrZdzZw&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIVLSzhGPgR2ps1Glfd4ki5InOTbQfrZdzZw&s",
+    "investment": 156
   },
   {
     "nombre": "Samsung A15",
     "ram": 4,
     "almacenamiento": 128,
     "precio": 250,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFLxQiRtOL1u4906J6hwPg9FIBnPLl4Y6u2g&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFLxQiRtOL1u4906J6hwPg9FIBnPLl4Y6u2g&s",
+    "investment": 156
   },
   {
     "nombre": "Samsung A15",
     "ram": 6,
     "almacenamiento": 128,
     "precio": 260,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFLxQiRtOL1u4906J6hwPg9FIBnPLl4Y6u2g&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFLxQiRtOL1u4906J6hwPg9FIBnPLl4Y6u2g&s",
+    "investment": 163
   },
   {
     "nombre": "Samsung A25",
     "ram": 8,
     "almacenamiento": 256,
     "precio": 300,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAYb2om8FObp4CrKGgp4Cp0QRZtEKviIJ2sQ&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAYb2om8FObp4CrKGgp4Cp0QRZtEKviIJ2sQ&s",
+    "investment": 188
   },
   {
     "nombre": "Samsung A35",
     "ram": 6,
     "almacenamiento": 128,
     "precio": 330,
-    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRARlKrnGQ4xBk4XRSf4vYsNFIyJtV44LQhfA&s"
+    "urlImagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRARlKrnGQ4xBk4XRSf4vYsNFIyJtV44LQhfA&s",
+    "investment": 206
   }
 ]

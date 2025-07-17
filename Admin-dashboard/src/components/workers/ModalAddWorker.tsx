@@ -9,7 +9,7 @@ import {
   Select,
   SelectItem,
   Spinner,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { FC, useEffect, useState } from "react";
 import { BiDollar, BiLock, BiMailSend, BiUser } from "react-icons/bi";
 import { toast } from "sonner";

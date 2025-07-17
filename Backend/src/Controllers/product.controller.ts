@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { SortItem } from "../types";
+import { SERVER_URL } from "../conf";
+import path from "path";
+import fs from "fs";
+import sharp from "sharp";
 
 const prisma = new PrismaClient();
 
@@ -70,7 +74,7 @@ export const searchProduct = async (req: Request, res: Response) => {
     //filters
     const minPrice = parseInt(req.query.minPrice as string) || 0;
 
-    const maxPrice = parseInt(req.query.maxPrice as string) || 2000;
+    const maxPrice = parseInt(req.query.maxPrice as string) || 1000000;
 
     const category = (req.query.category as string) || undefined;
 
@@ -96,6 +100,8 @@ export const searchProduct = async (req: Request, res: Response) => {
 
     const skip = (page - 1) * pageSize;
     const take = pageSize;
+
+    console.log(maxPrice);
 
     const result = await prisma.product.findMany({
       where: {
@@ -239,6 +245,13 @@ export const getProducts = async (req: Request, res: Response) => {
       include: {
         comment: true,
         Rating: true,
+        Sede: {
+          select: {
+            direction: true,
+            phone: true,
+            image: true,
+          },
+        },
         category: {
           select: {
             name: true,
@@ -246,7 +259,6 @@ export const getProducts = async (req: Request, res: Response) => {
           },
         },
       },
-      take: 1000000, //quitar esto !!!!!
     });
 
     const productWithRatings = products.map((product) => ({
@@ -276,7 +288,6 @@ export const createProduct = async (req: Request, res: Response) => {
       description,
       categoryId,
       price,
-      imagen,
       inventoryCount,
       rating,
       ram,
@@ -285,9 +296,30 @@ export const createProduct = async (req: Request, res: Response) => {
       mpxCameraFront,
       mpxCameraBack,
       sedeId,
+      investments,
     } = req.body;
 
+    const file = req.file;
+
+    const imagen = `${SERVER_URL}/public/webp/${file?.filename}.webp`;
+    const originImage = `${SERVER_URL}/public/${file?.filename}`;
+
     const userId = req.userId;
+
+    const originalPath = path.join(__dirname, `../Upload/${file?.filename}`);
+    const webpPath = path.join(
+      __dirname,
+      `../Upload/webp/${file?.filename}.webp`
+    );
+
+    // Procesar imagen a WebP con resolución reducida
+    await sharp(originalPath)
+      .resize(500, 500, {
+        fit: "inside",
+        withoutEnlargement: true,
+      })
+      .webp({ quality: 50 })
+      .toFile(webpPath);
 
     if (ram && storage && battery && mpxCameraBack && mpxCameraFront) {
       const product = await prisma.product.create({
@@ -295,15 +327,18 @@ export const createProduct = async (req: Request, res: Response) => {
           name,
           description,
           categoryId,
-          price,
+          price: Number(price),
           imagen,
-          inventoryCount,
-          ram,
-          storage,
-          battery,
-          mpxCameraBack,
-          mpxCameraFront,
+          originImage,
+          inventoryCount: Number(inventoryCount),
+          inicialInventory: Number(inventoryCount),
+          ram: Number(ram),
+          storage: Number(storage),
+          battery: Number(battery),
+          mpxCameraBack: Number(mpxCameraBack),
+          mpxCameraFront: Number(mpxCameraFront),
           sedeId,
+          investments: Number(investments),
         },
         include: {
           category: {
@@ -312,12 +347,13 @@ export const createProduct = async (req: Request, res: Response) => {
               name: true,
             },
           },
-          Sede:{
+          Sede: {
             select: {
-              id: true,
-              direction: true
-            }
-          }
+              direction: true,
+              phone: true,
+              image: true,
+            },
+          },
         },
       });
 
@@ -325,7 +361,7 @@ export const createProduct = async (req: Request, res: Response) => {
         data: {
           productID: product.id,
           administratorId: userId,
-          value: rating,
+          value: Number(rating),
         },
       });
 
@@ -338,10 +374,13 @@ export const createProduct = async (req: Request, res: Response) => {
           name,
           description,
           categoryId,
-          price,
+          price: Number(price),
           imagen,
-          inventoryCount,
+          originImage,
+          inventoryCount: Number(inventoryCount),
+          inicialInventory: Number(inventoryCount),
           sedeId,
+          investments: Number(investments),
         },
         include: {
           category: {
@@ -350,12 +389,13 @@ export const createProduct = async (req: Request, res: Response) => {
               name: true,
             },
           },
-          Sede:{
+          Sede: {
             select: {
-              id: true,
-              direction: true
-            }
-          }
+              direction: true,
+              phone: true,
+              image: true,
+            },
+          },
         },
       });
 
@@ -363,7 +403,7 @@ export const createProduct = async (req: Request, res: Response) => {
         data: {
           productID: product.id,
           administratorId: userId,
-          value: rating,
+          value: Number(rating),
         },
       });
 
@@ -373,7 +413,7 @@ export const createProduct = async (req: Request, res: Response) => {
     }
   } catch (error) {
     console.log("Error:", error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 
@@ -406,10 +446,20 @@ export const deleteProduct = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Producto no encontrado" });
     }
 
+    if (product.imagen) {
+      const publicDir = path.join(__dirname, "..", "Upload");
+      const fileName = product.imagen.split("/public/")[1]; // obtiene 'nombre-archivo.jpg'
+      const pathImage = path.join(publicDir, fileName);
+      // Elimina la imagen si existe
+      if (fs.existsSync(pathImage)) {
+        fs.unlinkSync(pathImage);
+      }
+    }
+
     return res.status(200).json({ message: "Producto eliminado con exito" });
   } catch (error) {
     console.log("Error:", error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 
@@ -421,77 +471,195 @@ export const updateProduct = async (req: Request, res: Response) => {
       description,
       categoryId,
       price,
-      imagen,
       inventoryCount,
       rating,
+      ram,
+      storage,
+      battery,
+      mpxCameraFront,
+      mpxCameraBack,
+      sedeId,
+      investments,
     } = req.body;
 
     const userId = req.userId;
+    let imagen = req.body.imagen;
+    let originImage = req.body.originImage;
+    const file = req.file;
 
-    console.log({
-      name,
-      description,
-      categoryId,
-      price,
-      imagen,
-      inventoryCount,
-      rating,
-      id,
-    });
+    if (file) {
+      imagen = `${SERVER_URL}/public/webp/${file.filename}.webp`;
+      originImage = `${SERVER_URL}/public/${file.filename}`;
+      const originalPath = path.join(__dirname, `../Upload/${file.filename}`);
+      const webpPath = path.join(
+        __dirname,
+        `../Upload/webp/${file.filename}.webp`
+      );
+      await sharp(originalPath)
+        .resize(500, 500, {
+          fit: "inside",
+          withoutEnlargement: true,
+        })
+        .webp({ quality: 50 })
+        .toFile(webpPath);
 
-    const product = await prisma.product.update({
-      where: { id },
-      data: {
-        name,
-        description,
-        categoryId,
-        price,
-        imagen,
-        inventoryCount,
-      },
-      include: {
-        category: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
-
-    if (rating !== undefined) {
-      const existingRating = await prisma.rating.findFirst({
-        where: {
-          productID: id,
-          administratorId: userId,
-        },
-      });
-
-      if (existingRating) {
-        await prisma.rating.update({
-          where: {
-            id: existingRating.id,
-          },
-          data: {
-            value: rating,
-          },
-        });
-      } else {
-        await prisma.rating.create({
-          data: {
-            productID: id,
-            administratorId: userId,
-            value: rating,
-          },
-        });
+      // Opcional: eliminar imagen anterior si existe y se reemplaza
+      const productOld = await prisma.product.findUnique({ where: { id } });
+      if (
+        productOld &&
+        productOld.imagen &&
+        productOld.originImage &&
+        productOld.imagen !== imagen &&
+        productOld.originImage !== originImage
+      ) {
+        try {
+          const publicDir = path.join(__dirname, "..", "Upload");
+          const fileName = productOld.imagen.split("/public/")[1];
+          const fileNameOroginal = productOld.originImage.split("/public/")[1];
+          const pathImage = path.join(publicDir, fileName);
+          const pathImageOriginal = path.join(publicDir, fileNameOroginal);
+          if (fs.existsSync(pathImage) && fs.existsSync(pathImageOriginal)) {
+            fs.unlinkSync(pathImageOriginal);
+            fs.unlinkSync(pathImage);
+          }
+        } catch (e) {
+          // No hacer nada si falla
+        }
       }
     }
 
-    res.status(200).json({
-      data: product,
-    });
+    if (ram || storage || battery || mpxCameraBack || mpxCameraFront) {
+      const product = await prisma.product.update({
+        where: { id: id },
+        data: {
+          name,
+          description,
+          categoryId,
+          price: Number(price),
+          imagen,
+          originImage,
+          inventoryCount: Number(inventoryCount),
+          ram: Number(ram),
+          storage: Number(storage),
+          battery: Number(battery),
+          mpxCameraBack: Number(mpxCameraBack),
+          mpxCameraFront: Number(mpxCameraFront),
+          sedeId,
+          investments: Number(investments),
+        },
+        include: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          Sede: {
+            select: {
+              direction: true,
+              phone: true,
+              image: true,
+            },
+          },
+        },
+      });
+
+      if (rating !== undefined) {
+        const existingRating = await prisma.rating.findFirst({
+          where: {
+            productID: id,
+            administratorId: userId,
+          },
+        });
+
+        if (existingRating) {
+          await prisma.rating.update({
+            where: {
+              id: existingRating.id,
+            },
+            data: {
+              value: Number(rating),
+            },
+          });
+        } else {
+          await prisma.rating.create({
+            data: {
+              productID: id,
+              administratorId: userId,
+              value: Number(rating),
+            },
+          });
+        }
+      }
+
+      res.status(200).json({
+        data: product,
+      });
+    } else {
+      const product = await prisma.product.update({
+        where: { id },
+        data: {
+          name,
+          description,
+          categoryId,
+          price: Number(price),
+          imagen,
+          originImage,
+          inicialInventory: Number(inventoryCount),
+          sedeId,
+          investments: Number(investments),
+        },
+        include: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          Sede: {
+            select: {
+              direction: true,
+              phone: true,
+              image: true,
+            },
+          },
+        },
+      });
+
+      if (rating !== undefined) {
+        const existingRating = await prisma.rating.findFirst({
+          where: {
+            productID: id,
+            administratorId: userId,
+          },
+        });
+
+        if (existingRating) {
+          await prisma.rating.update({
+            where: {
+              id: existingRating.id,
+            },
+            data: {
+              value: Number(rating),
+            },
+          });
+        } else {
+          await prisma.rating.create({
+            data: {
+              productID: id,
+              administratorId: userId,
+              value: Number(rating),
+            },
+          });
+        }
+      }
+
+      res.status(200).json({
+        data: product,
+      });
+    }
   } catch (error) {
     console.log("Error:", error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };

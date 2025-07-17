@@ -9,7 +9,8 @@ interface CreateProps {
   description: string;
   price: number;
   rating: number;
-  imagen: string;
+  imagen: File;
+  investments: number;
   inventoryCount: number;
   categoryId: string;
   ram?: number;
@@ -21,15 +22,37 @@ interface CreateProps {
 }
 
 export const createProductRequest = (product: CreateProps) => {
-  return axios.post(`/product`, product);
+  const formData = new FormData();
+  Object.entries(product).forEach(([key, value]) => {
+    // Si el valor es undefined o null, lo saltamos
+    if (value === undefined || value === null) return;
+    // Si es un array (por ejemplo, para múltiples imágenes o tags)
+    if (Array.isArray(value)) {
+      value.forEach((item, idx) => {
+        formData.append(`${key}[${idx}]`, item);
+      });
+    } else {
+      formData.append(key, value);
+    }
+  });
+  return axios.post(`/product`, formData);
 };
 
-export const updateProductRequest = (
-  id: string,
-  productUpdated: CreateProps
-) => {
-  console.log({ productUpdated });
-  return axios.put(`/product/${id}`, productUpdated);
+export const updateProductRequest = (id: string, productUpdated: CreateProps) => {
+  const formData = new FormData();
+  Object.entries(productUpdated).forEach(([key, value]) => {
+    // Si el valor es undefined o null, lo saltamos
+    if (value === undefined || value === null) return;
+    // Si es un array (por ejemplo, para múltiples imágenes o tags)
+    if (Array.isArray(value)) {
+      value.forEach((item, idx) => {
+        formData.append(`${key}[${idx}]`, item);
+      });
+    } else {
+      formData.append(key, value);
+    }
+  });
+  return axios.put(`/product/${id}`, formData);
 };
 
 export const deleteProductRequest = (id: string) => {

@@ -18,6 +18,6 @@ router.get("/users", authAdmin, getUsers);
 
 router.get("/user/:id", authAdmin, getUserID);
 
-router.delete("/user/:id", authAdmin, deleteUser);
+router.delete("/user/:userId", authAdmin, deleteUser);
 
 export default router;

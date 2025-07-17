@@ -12,10 +12,10 @@ import PurchaseConfirmationModal from "../components/checkout/PurchaseConfirmati
 const App: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const {isAuth} = useUserStore();
+  const { isAuth } = useUserStore();
 
   const [order, setOrder] = useState<OrderItem[] | null>(null);
-  const [orderID, setOrderID] = useState<number | null>(null)
+  const [orderID, setOrderID] = useState<number | null>(null);
   const [totalAmount, setTotalAmount] = useState(0);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const App: React.FC = () => {
     getOrderRequest()
       .then((res) => {
         setOrder(res.data.data.orderItems);
-        setOrderID(res.data.data.id)
+        setOrderID(res.data.data.id);
         setTotalAmount(res.data.data.totalAmount);
         setCount(res.data.data._count.orderItems);
       })
@@ -55,34 +55,38 @@ const App: React.FC = () => {
       });
   }, [isAuth]);
 
-  const updateOrder = (order: Order)=>{
+  const updateOrder = (order: Order) => {
     setOrder(order.orderItems);
     setOrderID(order.id);
     setTotalAmount(order.totalAmount);
     setCount(order._count.orderItems);
-  }
+  };
 
   const handleQuantity = (value: string, id: string, price: number) => {
     try {
       updateOrderItemRequest(id, Number(value), price)
-      .then((res) => {
-        if (res.status === 200) {
-          setTotalAmount(res.data.data.totalAmount);
-        }
-        if (res.status === 202) {
-          toast.error(
-            `Aviso: ${res.data.message || "Hubo un problema con la solicitud."}`
-          );
-        }
-        if (res.status === 203) {
-          toast.warning(
-            `Aviso: ${res.data.message || "Hubo un problema con la solicitud."}`
-          );
-        }
-      })
-      .catch(() => {
-        setError(["Error al incrementar el producto"]);
-      });
+        .then((res) => {
+          if (res.status === 200) {
+            setTotalAmount(res.data.data.totalAmount);
+          }
+          if (res.status === 202) {
+            toast.error(
+              `Aviso: ${
+                res.data.message || "Hubo un problema con la solicitud."
+              }`
+            );
+          }
+          if (res.status === 203) {
+            toast.warning(
+              `Aviso: ${
+                res.data.message || "Hubo un problema con la solicitud."
+              }`
+            );
+          }
+        })
+        .catch(() => {
+          setError(["Error al incrementar el producto"]);
+        });
     } catch (error) {
       setError(["Error al incrementar el producto"]);
     }
@@ -124,19 +128,25 @@ const App: React.FC = () => {
               Realizar Pago
             </button>
 
-            <PurchaseConfirmationModal
-              count={count}
-              totalAmount={totalAmount}
-              orderID={orderID}
-              isOpen={isOpen}
-              onClose={onClose}
-              updateOrder={updateOrder}
-            />
+            {orderID !== null && (
+              <PurchaseConfirmationModal
+                count={count}
+                totalAmount={totalAmount}
+                orderID={orderID}
+                isOpen={isOpen}
+                onClose={onClose}
+                updateOrder={updateOrder}
+              />
+            )}
           </div>
 
           <div className="grid  gap-4 relative max-lg:pt-5 z-0">
             <div className="lg:col-span-2 space-y-4">
-              {order?.length === 0 && <h1 className="text-2xl font-medium text-neutral-500">No hay productos en el carrito.</h1>}
+              {order?.length === 0 && (
+                <h1 className="text-2xl font-medium text-neutral-500">
+                  No hay productos en el carrito.
+                </h1>
+              )}
               {order !== null &&
                 order.map((orderItem) => {
                   return (

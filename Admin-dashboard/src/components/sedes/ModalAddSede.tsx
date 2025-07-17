@@ -6,15 +6,12 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
-  Select,
-  SelectItem,
   Spinner,
   Textarea,
-} from "@nextui-org/react";
-import { FC, Key, useEffect, useRef, useState } from "react";
-import { Sede, Workers } from "../../type";
+} from "@heroui/react";
+import { FC, useState } from "react";
+import { Sede } from "../../type";
 import { toast } from "sonner";
-import { getWorkersRequest } from "../../services/sedes";
 
 interface Props {
   sede?: Sede;
@@ -23,13 +20,13 @@ interface Props {
     image: string,
     direction: string,
     phone: string,
-    workers: Key[]
+    rent: number
   ) => Promise<void>;
   addSede: (
     image: string,
     direction: string,
     phone: string,
-    workers: Key[]
+    rent: number
   ) => Promise<void>;
   isOpen: boolean;
   onClose: () => void;
@@ -42,24 +39,7 @@ const ModalAddSede: FC<Props> = ({
   addSede,
   updateSede,
 }) => {
-  const [usersModerador, setUsersModerador] = useState<Workers[]>([]);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (isOpen) {
-      getWorkersRequest()
-        .then((res) => {
-          console.log(res.data.data)
-          setUsersModerador(res.data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error("Error al cargar los trabajadores");
-        });
-    }
-  }, [isOpen, sede?.id]);
-
-  const selectRef = useRef<HTMLSelectElement | null>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     setLoading(true);
@@ -69,23 +49,16 @@ const ModalAddSede: FC<Props> = ({
     const imageUrl = data.imageUrl as string;
     const phone = data.phone as string;
     const direction = data.direction as string;
+    const rent = parseInt(data.rent as string);
 
-    if (
-      !selectRef.current?.selectedOptions ||
-      !imageUrl ||
-      !phone ||
-      !direction
-    ) {
+    if (!imageUrl || !phone || !direction || !rent) {
+      setLoading(false);
       toast.error("Debe introducir todos los datos del formulario.");
       return;
     }
 
-    const select = Array.from(selectRef.current?.selectedOptions).flatMap(
-      (value) => value.value
-    );
-
     if (!sede?.id) {
-      addSede(imageUrl, direction, phone, select)
+      addSede(imageUrl, direction, phone, rent)
         .then()
         .finally(() => {
           setLoading(false);
@@ -93,13 +66,14 @@ const ModalAddSede: FC<Props> = ({
     }
 
     if (sede?.id) {
-      updateSede(sede.id, imageUrl, direction, phone, select)
+      updateSede(sede.id, imageUrl, direction, phone, rent)
         .then()
         .finally(() => {
           setLoading(false);
         });
     }
-    onClose()
+    setLoading(false);
+    onClose();
   };
 
   return (
@@ -168,23 +142,20 @@ const ModalAddSede: FC<Props> = ({
                       variant="bordered"
                       labelPlacement="outside"
                     />
-                    <Select
+                    <Input
+                      name="rent"
+                      autoFocus
+                      defaultValue={sede?.rent.toString()}
+                      startContent={
+                        <span className="text-sm text-default-800 pointer-events-none flex-shrink-0">
+                          $
+                        </span>
+                      }
+                      label="Renta del Local"
+                      placeholder="Ingrese el monto de la renta"
                       variant="bordered"
-                      ref={selectRef}
-                      className="max-w-[225px]"
-                      label="Trabajador"
-                      defaultSelectedKeys={sede?.workers.flatMap(
-                        (worker) => worker.id
-                      )}
-
-                      placeholder="Seleccione el Trabajador"
                       labelPlacement="outside"
-                      selectionMode="multiple"
-                    >
-                      {usersModerador.map((user) => (
-                        <SelectItem key={user.id}>{user.baseUser.username}</SelectItem>
-                      ))}
-                    </Select>
+                    />
                   </div>
                   <Textarea
                     label="Direccion:"

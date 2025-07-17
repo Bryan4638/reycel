@@ -1,4 +1,4 @@
-import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
+import { Popover, PopoverTrigger, PopoverContent } from "@heroui/react";
 import { FC, useState } from "react";
 
 interface NotificationsProps {

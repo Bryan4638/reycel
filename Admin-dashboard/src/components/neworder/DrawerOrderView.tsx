@@ -3,50 +3,38 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerBody,
-  useDisclosure,
   Spinner,
   Form,
   Input,
   Select,
   SelectItem,
   Button,
-} from "@nextui-org/react";
-import NewOrderView from "./NewOrderView";
+} from "@heroui/react";
 import { useEffect, useState } from "react";
-import { OrderItem } from "../../type";
-import {
-  confirmOrderRequest,
-  getOrderItemsRequest,
-  updateOrderItemRequest,
-} from "../../services/order";
 import { toast } from "sonner";
-import { BiLogoShopify, BiTransferAlt } from "react-icons/bi";
+import { BiTransferAlt } from "react-icons/bi";
 import usePaymentMethod from "../../customHooks/usePaymentMethod";
 import { useNavigate } from "react-router-dom";
+import NewOrderView from "./NewOrderView";
+import useNewOrder from "../../customHooks/useNewOrder";
+import { useAuth } from "../../context/AuthContext";
+import { confirmOrderRequest } from "../../services/neworder";
 
 interface Props {
-  userId: string;
-  orderId: string;
-  totalAmount: number;
-  setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
+  onClose: () => void;
+  isOpen: boolean;
 }
 
-export default function DrawerOrderView({
-  userId,
-  orderId,
-  totalAmount,
-  setTotalAmount,
-}: Props) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [count, setCount] = useState(0);
-  const [errors, setErrors] = useState<Array<string> | null>(null);
-  const [items, setItems] = useState<OrderItem[] | null>(null);
-  const [loading, setLoading] = useState(false);
+export default function DrawerOrderView({ onClose, isOpen }: Props) {
   const { paymentMethod } = usePaymentMethod();
   const [selectedMethod, setSelectedMethod] = useState<string | null>("CASH");
   const [selectedId, setSelectedId] = useState<string>("");
   const [disable, setDisable] = useState<boolean>(true);
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const { order, setOrder, errors, setErrors, isLoading } =
+    useNewOrder(user?.userId);
 
   useEffect(() => {
     if (selectedMethod === "CASH" || selectedMethod === "") {
@@ -54,38 +42,9 @@ export default function DrawerOrderView({
     } else setDisable(false);
   }, [selectedMethod]);
 
-  useEffect(() => {
-    setLoading(true);
-    getOrderItemsRequest(orderId)
-      .then((res) => {
-        setTotalAmount(res.data.data.totalAmount);
-        setItems(res.data.data.orderItems);
-        setCount(res.data.data._count.orderItems);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Error al cargar los productos");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [orderId, setTotalAmount]);
-
-  const handleQuantity = (value: string, id: string, price: number) => {
-    try {
-      updateOrderItemRequest(id, Number(value), price).then((res) => {
-        setTotalAmount(res.data.data.totalAmount);
-      });
-    } catch (error) {
-      console.log(error);
-      setErrors(["Error al incrementar el producto"]);
-    }
-  };
-
   const handleMethodChange = (value: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMethod(value.target.value);
   };
-
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,16 +59,16 @@ export default function DrawerOrderView({
 
     if (!transactionIdInput || transactionIdInput === "") {
       confirmOrderRequest({
-        orderID: orderId,
-        amount: totalAmount,
+        orderID: order?.id,
+        amount: order?.totalAmount,
         paymentMethod: selectedId,
-        userId: userId,
+        userId: user?.userId,
+        sede: user?.sede
       })
         .then((res) => {
           toast.success("Orden Confirmada");
-          setTotalAmount(res.data.data.totalAmount);
-          setItems(res.data.data.orderItems);
-          setCount(res.data.data._count.orderItems);
+          setOrder(res.data.data);
+
           onClose();
           navigate("/order");
         })
@@ -119,17 +78,17 @@ export default function DrawerOrderView({
         });
     } else {
       confirmOrderRequest({
-        orderID: orderId,
-        amount: totalAmount,
+        orderID: order?.id,
+        amount: order?.totalAmount,
         paymentMethod: selectedId,
+        userId: user?.userId,
         transactionID: transactionIdInput,
-        userId: userId,
+        sede: user?.sede
       })
         .then((res) => {
           toast.success("Orden Confirmada");
-          setTotalAmount(res.data.data.totalAmount);
-          setItems(res.data.data.orderItems);
-          setCount(res.data.data._count.orderItems);
+          setOrder(res.data.data);
+
           onClose();
           navigate("/order");
         })
@@ -142,16 +101,10 @@ export default function DrawerOrderView({
 
   return (
     <>
-      <button
-        onClick={onOpen}
-        className="p-2 mr-3 text-gray-600 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700"
-      >
-        <BiLogoShopify size={28}></BiLogoShopify>
-      </button>
       <Drawer
         isOpen={isOpen}
         size="5xl"
-        placement="left"
+        placement="right"
         backdrop="transparent"
         hideCloseButton
         onClose={onClose}
@@ -170,20 +123,6 @@ export default function DrawerOrderView({
                     className="md:fixed md:w-1/3 flex w-full"
                     onSubmit={handleSubmit}
                   >
-                    <div className="flex gap-2 min-w-full">
-                      <Input
-                        endContent={
-                          <span className="text-md text-default-400 pointer-events-none flex-shrink-0">
-                            USD
-                          </span>
-                        }
-                        name="Precio"
-                        label="Precio"
-                        variant="bordered"
-                        labelPlacement="outside"
-                        defaultValue={String(totalAmount)}
-                      />
-                    </div>
                     {paymentMethod && (
                       <div className="flex gap-2 min-w-full">
                         <Select
@@ -234,37 +173,37 @@ export default function DrawerOrderView({
                       <ul className="text-gray-800 text-sm divide-x flex gap-4 mt-4">
                         <li className="flex flex-wrap gap-4 py-3">
                           Cantidad de productos{" "}
-                          <span className="ml-auto font-bold">{count}</span>
+                          <span className="ml-auto font-bold">
+                            {order?._count.orderItems}
+                          </span>
                         </li>
                         <li className="flex flex-wrap gap-4 py-3 font-bold pl-4">
-                          Total <span className="ml-auto">${totalAmount}</span>
+                          Total{" "}
+                          <span className="ml-auto">${order?.totalAmount}</span>
                         </li>
                       </ul>
                     </div>
 
-                    {loading && (
+                    {isLoading && (
                       <div className="min-w-full min-h-full flex items-center justify-center">
                         <Spinner></Spinner>
                       </div>
                     )}
 
                     <div className="mt-2 grid grid-cols-2 sm:grid-cols-2 gap-2 md:max-h-full overflow-auto  scrollbar-default">
-                      {items &&
-                        !loading &&
-                        items.map((item) => (
+                      {order?.orderItems &&
+                        !isLoading &&
+                        order.orderItems.map((item) => (
                           <NewOrderView
                             id={item.id}
                             key={item.id}
                             image={item.product.imagen}
                             name={item.product.name}
                             price={item.price}
-                            inventaryCount={item.product.inventaryCount}
+                            inventoryCount={item.product.inventoryCount}
+                            setErrors={setErrors}
+                            setOrder={setOrder}
                             quantity={item.quantity}
-                            setOrder={setItems}
-                            setTotalAmount={setTotalAmount}
-                            setCount={setCount}
-                            setError={setErrors}
-                            handleQuantity={handleQuantity}
                           />
                         ))}
                     </div>
@@ -275,7 +214,7 @@ export default function DrawerOrderView({
           )}
         </DrawerContent>
       </Drawer>
-      {errors && toast.error("Error al incrementar el producto")}
+      {errors.length > 0 && toast.error("Error al incrementar el producto")}
     </>
   );
 }

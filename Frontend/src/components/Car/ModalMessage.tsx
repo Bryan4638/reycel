@@ -76,7 +76,7 @@ const ModalMessage: FC<Props> = ({
     null
   );
 
-  const { user, isAuth } = useUserStore();
+  const { isAuth } = useUserStore();
 
   const {addNotifications} = useNotificationStore()
 
@@ -139,7 +139,6 @@ const ModalMessage: FC<Props> = ({
       fastDelivery,
       address: inputDireccion,
       town: inputMunicipio,
-      userID: user?.userId,
       orderID: orderID,
       paymentMethodId: selectedMethod?.id,
     };

@@ -7,7 +7,9 @@ import { toast } from "sonner";
 import AuthUser from "../../pages/auth/AuthUser";
 import { useUserStore } from "../../store/useUserStore";
 
-const Card: FC<Products> = (product) => {
+type CardProps = Omit<Products, "originImage">;
+
+const Card: FC<CardProps> = (product) => {
   const { isAuth } = useUserStore();
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
@@ -16,7 +18,6 @@ const Card: FC<Products> = (product) => {
       onOpen();
       return;
     }
-
 
     addItemOrderRequest(product.id, 1)
       .then((res) => {
@@ -44,7 +45,7 @@ const Card: FC<Products> = (product) => {
       <div className="h-56 w-full">
         <Link to={`/details?p=${product.id}`}>
           <img
-            className="mx-auto h-full"
+            className="mx-auto h-full object-fill"
             src={product.imagen}
             alt={product.name}
           />
@@ -150,13 +151,13 @@ const Card: FC<Products> = (product) => {
           to={`/details?p=${product.id}`}
           className="text-lg overflow-hidden font-semibold min-h-12 leading-tight text-gray-900 hover:underline line-clamp-2"
         >
-          {product.category?.name === "Moviles" && (
+          {product.category?.name === "Smartphones" && (
             <>
               {`${product.name},  Ram ${product.ram}GB, Almacenamiento ${product.storage}GB `}
             </>
           )}
 
-          {product.category?.name !== "Moviles" && <>{`${product.name} `}</>}
+          {product.category?.name !== "Smartphones" && <>{`${product.name} `}</>}
         </Link>
 
         <div className="mt-2 flex items-center gap-2">
@@ -187,7 +188,7 @@ const Card: FC<Products> = (product) => {
           </p>
 
           <Button
-            isDisabled= {product.inventoryCount === 0}
+            isDisabled={product.inventoryCount === 0}
             onPress={handleClikAddProduct}
             color="primary"
             className="inline-flex items-center rounded-lg "

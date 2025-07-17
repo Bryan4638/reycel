@@ -1,5 +1,5 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs: https://pris.ly/d/prisma-schema   
 
 generator client {
   provider = "prisma-client-js"
@@ -28,23 +28,23 @@ model BaseUser {
 // Modelo para administradores del sitio
 model Administrator {
   id           String         @id @default(uuid())
-  baseUser     BaseUser       @relation(fields: [baseUserId], references: [id])
+  baseUser     BaseUser       @relation(fields: [baseUserId], references: [id], onDelete: Cascade)
   baseUserId   String         @unique
   salary       Int?
-  mouthSalary  Int?
+  mouthSalary  Int            @default(0)
   role         Role           @default(MODERATOR)
-  sede         Sede?          @relation(fields: [sedeId], references: [id])
+  sede         Sede?          @relation(fields: [sedeId], references: [id], onDelete: Cascade)
   sedeId       String?
   notification Notification[]
-  orders       Order[] // Agregar órdenes para administradores
-  ratings      Rating[] // Agregar ratings para administradores
+  orders       Order[]
+  ratings      Rating[]
   Payment      Payment[]
 }
 
 // Modelo para clientes
 model Client {
   id           String         @id @default(uuid())
-  baseUser     BaseUser       @relation(fields: [baseUserId], references: [id])
+  baseUser     BaseUser       @relation(fields: [baseUserId], references: [id], onDelete: Cascade)
   baseUserId   String         @unique
   orders       Order[]
   ratings      Rating[]
@@ -59,11 +59,12 @@ enum Role {
 }
 
 model Category {
-  id        String    @id @default(uuid())
-  name      String    @unique
-  products  Product[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id            String    @id @default(uuid())
+  name          String    @unique
+  products      Product[]
+  profitsBySell Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model Product {
@@ -72,7 +73,9 @@ model Product {
   description           String
   price                 Float
   categoryId            String
+  investments           Int?
   imagen                String?
+  originImage           String?
   color                 String?
   ram                   Int?
   storage               Int?
@@ -81,14 +84,15 @@ model Product {
   mpxCameraBack         Int?
   ratingAverage         Float                  @default(1)
   inventoryCount        Int                    @default(1)
-  category              Category               @relation(fields: [categoryId], references: [id])
+  inicialInventory      Int                    @default(1)
+  category              Category               @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   inventoryTransactions InventoryTransaction[]
   orderItems            OrderItem[]
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
   Rating                Rating[]
   comment               Comment[]
-  Sede                  Sede?                  @relation(fields: [sedeId], references: [id])
+  Sede                  Sede?                  @relation(fields: [sedeId], references: [id], onDelete: Cascade)
   sedeId                String?
 }
 
@@ -99,20 +103,18 @@ model Comment {
   productId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Product   Product  @relation(fields: [productId], references: [id])
-  client    Client   @relation(fields: [userId], references: [id])
+  Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  client    Client   @relation(fields: [userId], references: [id], onDelete: NoAction)
 }
 
 model Rating {
   id              String         @id @default(uuid())
   value           Int            @default(1) // Rango: 1-5
   productID       String
-  product         Product        @relation(fields: [productID], references: [id])
-  // Relación con Client
-  client          Client?        @relation(fields: [clientId], references: [id])
+  product         Product        @relation(fields: [productID], references: [id], onDelete: Cascade)
+  client          Client?        @relation(fields: [clientId], references: [id], onDelete: NoAction)
   clientId        String?
-  // Relación con Administrator
-  administrator   Administrator? @relation(fields: [administratorId], references: [id])
+  administrator   Administrator? @relation(fields: [administratorId], references: [id], onDelete: NoAction)
   administratorId String?
   createdAt       DateTime       @default(now())
 }
@@ -135,9 +137,9 @@ model Order {
   id          Int            @id @default(autoincrement())
   pending     Boolean        @default(true)
   clientId    String?
-  client      Client?        @relation(fields: [clientId], references: [id])
+  client      Client?        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   adminId     String?
-  admin       Administrator? @relation(fields: [adminId], references: [id])
+  admin       Administrator? @relation(fields: [adminId], references: [id], onDelete: Cascade)
   orderItems  OrderItem[]
   totalAmount Float          @default(0)
   payment     Payment?
@@ -147,9 +149,9 @@ model Order {
 model OrderItem {
   id        String   @id @default(uuid())
   orderId   Int
-  order     Order    @relation(fields: [orderId], references: [id])
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId String
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity  Int
   price     Float
   createdAt DateTime @default(now())
@@ -158,7 +160,7 @@ model OrderItem {
 model Payment {
   id              Int            @id @default(autoincrement())
   orderId         Int            @unique
-  order           Order          @relation(fields: [orderId], references: [id])
+  order           Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
   amount          Float
   transactionID   String?
   fastDelivery    Boolean
@@ -176,6 +178,7 @@ model PaymentMethod {
   id             String         @id @default(uuid())
   cardImage      String
   cardNumber     String?
+  phoneNumber    String?
   createdAt      DateTime       @default(now())
   payment        Payment[]
   paymentOptions PaymentOptions
@@ -196,20 +199,39 @@ enum PaymentStatus {
 }
 
 model Sede {
-  id        String          @id @default(uuid())
-  image     String
-  phone     Int             @unique
-  direction String
-  workers   Administrator[]
-  producto  Product[]
+  id          String               @id @default(uuid())
+  image       String
+  phone       Int                  @unique
+  direction   String
+  rent        Int
+  losses      Investments_Losses[]
+  finalLosses Int                  @default(0)
+  netProfits  Int                  @default(0)
+  workers     Administrator[]
+  producto    Product[]
+}
+
+model Investments_Losses {
+  id          String   @id @default(uuid())
+  price       Int
+  description String
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
+  Sede        Sede?    @relation(fields: [sedeId], references: [id], onDelete: Cascade)
+  sedeId      String?
 }
 
 model CurrencyExchange {
-  id        String   @id @default(uuid())
-  cup       Float
-  eur       Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  cup         Float
+  eur         Float
+  cad         Float
+  gbp         Float
+  zelle       Float
+  cupTransfer Float
+  mlcTransfer Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Notification {
@@ -219,10 +241,8 @@ model Notification {
   type            NotificationType
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
-  // Relación con Client
   clientId        String?
   client          Client?          @relation(fields: [clientId], references: [id])
-  // Relación con Administrator
   administratorId String?
   administrator   Administrator?   @relation(fields: [administratorId], references: [id])
 }
@@ -234,13 +254,33 @@ enum NotificationType {
 }
 
 model TempInventoryReservation {
-  id      String @id @default(uuid())
-  userId  String // ID del usuario que hizo el pedido
-  orderId Int // ID de la orden
+  id        String   @id @default(uuid())
+  userId    String // ID del usuario que hizo el pedido
+  orderId   Int // ID de la orden
   productId String // ID del producto reservado
-  quantity Int // Cantidad de productos reservados
+  quantity  Int // Cantidad de productos reservados
   expiresAt DateTime // Tiempo de expiración de la reserva
   createdAt DateTime @default(now())
 
   @@index([userId, orderId])
+}
+
+model AuditLog {
+  id        String    @id @default(uuid())
+  action    LogAction // CREATE, UPDATE, DELETE
+  model     String // Nombre del modelo afectado (ej. "Product", "Client")
+  recordId  String // ID del registro afectado
+  oldData   Json? // Datos antes del cambio (para UPDATE/DELETE)
+  newData   Json? // Datos nuevos (para CREATE/UPDATE)
+  changedBy String? // ID del usuario que realizó el cambio
+  changedAt DateTime  @default(now())
+  ipAddress String?
+  userAgent String?
+}
+
+enum LogAction {
+  CREATE
+  UPDATE
+  DELETE
+  SOFT_DELETE
 }

@@ -7,7 +7,7 @@ import {
   ModalContent,
   ModalHeader,
   Spinner,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { FC, useEffect, useState } from "react";
 import { BiLock, BiUser } from "react-icons/bi";
 import { toast } from "sonner";
