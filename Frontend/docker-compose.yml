@@ -1,0 +1,12 @@
+services:
+  frontend-reycel:
+    build: .
+    image: frontend:latest
+    ports:
+      - "4174:4174"
+    restart: unless-stopped
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:

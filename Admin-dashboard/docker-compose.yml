@@ -1,0 +1,12 @@
+services:
+  admin-frontend-reycel:
+    build: .
+    image: admin-frontend:latest
+    ports:
+      - "4173:4173"
+    restart: unless-stopped
+    networks:
+      - admin-frontend-network
+
+networks:
+  admin-frontend-network:

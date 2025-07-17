@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  postgresql:
+    image: 18beta1-alpine3.22
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=4638
+      - POSTGRES_DB=reycel
+    ports:
+      - '5432:5432'
+
+  app:
+    depends_on:
+      - postgresql
+    links:
+      - postgresql
+    build: .
+
+    ports:
+      - 4000:4000
+    
