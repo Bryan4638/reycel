@@ -252,8 +252,8 @@ const SideBar: FC<PropsSideBar> = ({ isOpen, onOpenChange }) => {
                         d="M10 3v4M10 13v4m0-6h4m-8 0H5M17 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5 15a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM17 15a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"
                       />
                     </svg>
-                    <span className="flex-1 ms-3 whitespace-nowrap">
-                      Inversiones o Merma
+                    <span className="flex-1 ms-3 whitespace-nowrap truncate">
+                      Merma o Inversiones
                     </span>
                   </Link>
                 </li>

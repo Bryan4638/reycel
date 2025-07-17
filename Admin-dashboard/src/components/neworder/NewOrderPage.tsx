@@ -30,7 +30,7 @@ export default function NewOrderPage() {
   return (
     <>
       <div className="h-screen flex flex-col mt-32">
-        <div className="fixed w-full top-14 z-10 bg-white border-b border-gray-200 shadow-sm">
+        <div className="fixed w-full lg:w-10/12 top-14 z-10 bg-white border-b border-gray-200 shadow-sm lg:border-none lg:shadow-none">
           <div className="py-4 px-10">
             <div className="w-full flex justify-between gap-6">
               <Input
