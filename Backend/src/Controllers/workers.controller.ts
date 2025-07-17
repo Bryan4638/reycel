@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Role } from "@prisma/client";
 import bcryptjs from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -95,7 +95,7 @@ export const createWorker = async (req: Request, res: Response) => {
 
     const hashedPassword = await bcryptjs.hash(password, 10);
 
-    if (role === "MODERATOR") {
+    if (role === Role.MODERATOR) {
       const baseUser = await prisma.baseUser.create({
         data: {
           email,

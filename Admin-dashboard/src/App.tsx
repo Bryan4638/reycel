@@ -24,8 +24,8 @@ function App() {
           <Toaster richColors expand={true} />
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route element={<ProtectedRoutes />}>
-              <Route element={<NavBar />}>
+            <Route element={<NavBar />}>
+              <Route element={<ProtectedRoutes />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/users" element={<User />} />
                 <Route path="/workers" element={<Workers />} />

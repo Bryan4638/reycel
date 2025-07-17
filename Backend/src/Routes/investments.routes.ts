@@ -4,7 +4,7 @@ import { addLosses, getLosses } from "../Controllers/investments.controller";
 
 const router = Router();
 
-router.get("/losses", getLosses);
+router.get("/losses", authMiddleware, getLosses);
 
 router.post("/losses/:id", authMiddleware, addLosses);
 

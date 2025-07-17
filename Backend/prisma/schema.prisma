@@ -112,10 +112,8 @@ model Rating {
   value           Int            @default(1) // Rango: 1-5
   productID       String
   product         Product        @relation(fields: [productID], references: [id], onDelete: Cascade)
-  // Relación con Client
   client          Client?        @relation(fields: [clientId], references: [id], onDelete: NoAction)
   clientId        String?
-  // Relación con Administrator
   administrator   Administrator? @relation(fields: [administratorId], references: [id], onDelete: NoAction)
   administratorId String?
   createdAt       DateTime       @default(now())
@@ -243,10 +241,8 @@ model Notification {
   type            NotificationType
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
-  // Relación con Client
   clientId        String?
   client          Client?          @relation(fields: [clientId], references: [id])
-  // Relación con Administrator
   administratorId String?
   administrator   Administrator?   @relation(fields: [administratorId], references: [id])
 }

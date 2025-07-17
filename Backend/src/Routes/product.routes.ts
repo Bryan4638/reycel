@@ -1,5 +1,5 @@
-import { Router, Request } from "express";
-import { authMiddleware } from "../Middlewares/middlewareAdmin";
+import { Router } from "express";
+import { authMiddleware, authModeratorMiddleware } from "../Middlewares/middlewareAdmin";
 import {
   createProduct,
   deleteProduct,
@@ -14,8 +14,6 @@ import {
   getCategory,
   updateCategory,
 } from "../Controllers/category.controller";
-import multer from "multer";
-import path from "path";
 import upload from "../Middlewares/upload.midleware";
 
 const router = Router();
@@ -58,11 +56,16 @@ router.get("/products/search", searchProduct);
 
 router.get("/products", getProductID);
 
-router.get("/product", authMiddleware, getProducts);
+router.get("/product", authModeratorMiddleware, getProducts);
 
 router.post("/product", upload.single("imagen"), authMiddleware, createProduct);
 
-router.put("/product/:id", upload.single("imagen"), authMiddleware, updateProduct);
+router.put(
+  "/product/:id",
+  upload.single("imagen"),
+  authMiddleware,
+  updateProduct
+);
 
 router.delete("/product/:id", authMiddleware, deleteProduct);
 

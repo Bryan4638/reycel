@@ -13,10 +13,6 @@ CREATE TABLE sales_facts (
     month_year VARCHAR(7),
     quarter VARCHAR(7)
 );
-TRUNCATE sales_facts;
-
-ALTER TABLE sales_facts
-ADD COLUMN investment_price DECIMAL(12,2) NOT NULL;
 
 -- 2. Crear la función del trigger para actualizar campos calculados
 CREATE OR REPLACE FUNCTION update_sales_facts_derived_fields()

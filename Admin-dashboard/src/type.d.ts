@@ -245,8 +245,10 @@ export interface Growth {
 }
 
 export interface PaymentAnalytics {
-  date: string;
-  total: number;
+  GananciasBrutas: number;
+  Invercion: number;
+  Monto_en_Ventas: number;
+  month: string;
 }
 
 export interface AddPaymentMethodProps {
@@ -255,4 +257,10 @@ export interface AddPaymentMethodProps {
   numberCard: string;
   phoneNumber?: string;
   selected: PaymentOptions;
+}
+
+export interface AnalyticsTable {
+  name: string;
+  total_sold: number;
+  total_revenue: number;
 }

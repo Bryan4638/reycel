@@ -1,20 +1,15 @@
-import {
-  AreaChart,
-  DateRangePicker,
-  DateRangePickerItem,
-  DateRangePickerValue,
-} from "@tremor/react";
-import { es } from "date-fns/locale";
-import { useEffect, useState } from "react";
+import { AreaChart } from "@tremor/react";
+import { useCallback, useEffect, useState } from "react";
 import { getPaymentsRequest } from "../../services/analytics";
 import { PaymentAnalytics } from "../../type";
 import { toast } from "sonner";
+import { DateRangePickerValue } from "@tremor/react";
 
-export function MonthlyEarnings() {
-  const [value, setValue] = useState<DateRangePickerValue>({
-    from: new Date(new Date().getFullYear(), 0, 1),
-    to: new Date(new Date().getFullYear(), 11, 31),
-  });
+interface Props {
+  value: DateRangePickerValue;
+}
+
+export function MonthlyEarnings({ value }: Props) {
   const [payments, setPayments] = useState<PaymentAnalytics[] | null>(null);
   useEffect(() => {
     const startDate = value.from?.toUTCString();
@@ -32,6 +27,14 @@ export function MonthlyEarnings() {
     }
   }, [value.from, value.to]);
 
+  const precioTotal = useCallback(
+    () =>
+      payments?.reduce((total, payments) => {
+        return total + payments.GananciasBrutas;
+      }, 0),
+    [payments]
+  );
+
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:justify-between items-center w-full">
@@ -40,40 +43,16 @@ export function MonthlyEarnings() {
             Ganancias Anuales
           </h3>
           <p className="text-tremor-metric text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">
-            $34,567
+            ${precioTotal()}
           </p>
         </div>
-        <DateRangePicker
-          value={value}
-          onValueChange={setValue}
-          locale={es}
-          selectPlaceholder="Seleccionar"
-          color="rose"
-        >
-          <DateRangePickerItem
-            key="lastYear"
-            value="lastYear"
-            from={new Date(new Date().getFullYear() - 1, 0, 1)}
-            to={new Date(new Date().getFullYear() - 1, 11, 31)}
-          >
-            Año anterior
-          </DateRangePickerItem>
-          <DateRangePickerItem
-            key="half"
-            value="half"
-            from={new Date(new Date().getFullYear(), 0, 1)}
-            to={new Date(new Date().getFullYear(), 11, 31)}
-          >
-            Año Presente
-          </DateRangePickerItem>
-        </DateRangePicker>
       </div>
       {payments && value.from && value.to && (
         <AreaChart
           data={payments}
-          index="date"
-          categories={["total"]}
-          colors={["red"]}
+          index="month"
+          categories={["Monto_en_Ventas", "Invercion", "GananciasBrutas"]}
+          colors={["red", "blue", "green"]}
           showLegend={false}
           showYAxis={false}
           startEndOnly={true}

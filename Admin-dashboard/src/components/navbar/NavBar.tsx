@@ -3,10 +3,11 @@ import DropdownComp from "./DropdownMenu";
 import SideBar from "./DrawerSideBar";
 import Avatar from "./Avatar";
 import { useState } from "react";
-
+import { useAuth } from "../../context/AuthContext";
 
 function NavBar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user } = useAuth();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -48,7 +49,9 @@ function NavBar() {
             </Link>
           </div>
           <div className="flex items-center lg:order-2 space-x-2">
-            <DropdownComp />
+            {user?.role === "OWNER" && (
+              <DropdownComp />
+            )}
             <Avatar />
           </div>
         </div>

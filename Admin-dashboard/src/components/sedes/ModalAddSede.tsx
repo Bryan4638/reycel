@@ -52,6 +52,7 @@ const ModalAddSede: FC<Props> = ({
     const rent = parseInt(data.rent as string);
 
     if (!imageUrl || !phone || !direction || !rent) {
+      setLoading(false);
       toast.error("Debe introducir todos los datos del formulario.");
       return;
     }
@@ -71,6 +72,7 @@ const ModalAddSede: FC<Props> = ({
           setLoading(false);
         });
     }
+    setLoading(false);
     onClose();
   };
 

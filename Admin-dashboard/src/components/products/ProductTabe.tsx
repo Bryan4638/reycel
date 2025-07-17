@@ -515,13 +515,15 @@ export default function ProductTable() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button
-              color="primary"
-              onPress={handleAddProduct}
-              endContent={<PlusIcon />}
-            >
-              Nuevo Producto
-            </Button>
+            {user?.role === "OWNER" && (
+              <Button
+                color="primary"
+                onPress={handleAddProduct}
+                endContent={<PlusIcon />}
+              >
+                Nuevo Producto
+              </Button>
+            )}
           </div>
         </div>
         <div className="flex justify-between items-center">

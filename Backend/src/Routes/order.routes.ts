@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { authMiddleware as authAdmin } from "../Middlewares/middlewareAdmin";
+import {
+  authMiddleware as authAdmin,
+  authModeratorMiddleware,
+} from "../Middlewares/middlewareAdmin";
 import { authMiddleware } from "../Middlewares/middlewares";
 import {
   addOrderItem,
@@ -20,10 +23,8 @@ router.put("/products/order", authMiddleware, updateOrderItem);
 router.delete("/products/order", authMiddleware, deleteOrderItem);
 
 
+router.get("/order", authModeratorMiddleware, getOrderAdmin);
 
-router.get("/order", authAdmin, getOrderAdmin);
-
-router.get("/order/:id", authAdmin, getOrderItemsTable);
-
+router.get("/order/:id", authModeratorMiddleware, getOrderItemsTable);
 
 export default router;
