@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "add": "ts-node-dev src/Data/addproduct.ts",
     "migrate": "npx prisma migrate dev",
-    "init": "npx prisma generate && npx prisma migrate dev",
+    "init": "npx prisma generate && npx prisma migrate dev --name init",
     "studio": "npx prisma studio",
     "data": "ts-node-dev src/Data/addproduct.ts"
   },
