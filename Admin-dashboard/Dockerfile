@@ -3,7 +3,7 @@ FROM node:20-alpine
 WORKDIR /app/
 
 # 1. Copiar solo los archivos necesarios para instalar dependencias
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 # 2. Instalar TODAS las dependencias (incluyendo devDependencies)
 RUN npm ci
