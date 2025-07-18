@@ -35,7 +35,13 @@ services:
       - /usr/src/app/node_modules
     stdin_open: true
     tty: true
+<<<<<<< HEAD
     
 # Volumen para persistencia de datos de PostgreSQL
 volumes:
   postgres_data:
+=======
+# Volumen para persistencia de datos de PostgreSQL
+volumes:
+  postgres_data:
+>>>>>>> 2d2c16c28853a6459eb457df19cb20c0158f60ad
