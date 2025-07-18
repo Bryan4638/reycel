@@ -3,7 +3,6 @@ import { Request, Response, NextFunction } from "express";
 import { TOKEN_SECRET } from "../conf";
 import { TokenPayload } from "../types";
 import {PrismaClient, Role} from '@prisma/client'
-import { ifError } from "assert";
 
 const prisma = new PrismaClient()
 

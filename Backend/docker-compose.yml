@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   postgresql:
-    image: 18beta1-alpine3.22
+    image: postgresql:18beta1-alpine3.22
     restart: always
     environment:
       - POSTGRES_USER=postgres

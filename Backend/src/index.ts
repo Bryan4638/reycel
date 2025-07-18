@@ -42,6 +42,7 @@ app.use(
       "https://reycel.com",
       "https://admin.reycel.com",
       "https://bot.reycel.com",
+      "http://192.168.21.182:5174"
     ],
 
     credentials: true,
