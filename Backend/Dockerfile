@@ -14,13 +14,6 @@ RUN npm install
 # 3. Copiar el resto de los archivos
 COPY . .
 
-<<<<<<< HEAD
-=======
-# 4. Ejecutar comandos de construcción
-#RUN npm run init
-#RUN npx prisma db seed
-
->>>>>>> 2d2c16c28853a6459eb457df19cb20c0158f60ad
 RUN npm run build
 
 EXPOSE 4000
