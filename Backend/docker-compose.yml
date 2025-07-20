@@ -6,9 +6,9 @@ services:
     image: postgres:18beta1-alpine3.22
     container_name: postgres_db
     environment:
-      POSTGRES_USER: reycel_app
-      POSTGRES_PASSWORD: reycelapp4638*
-      POSTGRES_DB: reycel
+      POSTGRES_USER: user_dataabse
+      POSTGRES_PASSWORD: password_database
+      POSTGRES_DB: database
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -27,7 +27,17 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      DATABASE_URL: "postgresql://reycel_app:reycelapp4638*@postgres:5432/reycel?schema=public"
+      DATABASE_URL: "direccion de tu base de datos"
+      BOT_TOKEN: tocken del bot
+      BOT_ID: id del chat de telegram
+      USER_GMAIL: "test@gmail.com"
+      PASSWORD_GMAIL: "password de gmail"
+      SERVER_URL: "http://localhost:4000"
+      FASTAPI_URL: "http://localhost:8000"
+      URL: "http://localhost:5173"
+      TOKEN_SECRET: "myPassword"
+      HASH_SECRET: "ndsalkjudfglsjahgdljhsv"
+
     ports:
       - "4000:4000"
     volumes:
