@@ -49,7 +49,7 @@ jobs:
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
         command: |
           cd /root/Reycel &&
-          docker login ghcr.io -u Bryan4638 -p "${{ TOCKEN_CI }}" &&
+          docker login ghcr.io -u Bryan4638 -p ${{ secrets.TOCKEN_CI }} &&
           docker pull ghcr.io/bryan4638/reycel-admin-dashboard:latest &&
           docker pull ghcr.io/bryan4638/reycel-frontend:latest &&
           docker pull ghcr.io/bryan4638/reycel-backend:latest &&
