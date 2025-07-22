@@ -4,7 +4,6 @@ import {
   DateRangePickerItem,
   DateRangePickerValue,
 } from "@tremor/react";
-import { CardGeneralData } from "./CardGeneralData";
 import { MonthlyEarnings } from "./MonthlyEarnings";
 import { PaymentStatus } from "./Paymnets/PaymentStatus";
 //import { ProductAnalytics } from "./ProductAnalytics";
@@ -19,7 +18,6 @@ export default function Stadistic() {
     to: new Date(new Date().getFullYear(), 11, 31),
   });
   const {
-    analytics,
     error,
     bestSellingProduct,
     leastSellingProduct,
@@ -31,7 +29,7 @@ export default function Stadistic() {
     <>
       {error && toast.error(error)}
       <section className="px-2 ml-0 lg:px-5 lg:ml-5 pt-3">
-        <section className="grid gap-4 sm:grid-cols-2 ">
+        {/* <section className="grid gap-4 sm:grid-cols-2 ">
           {analytics?.dataProductsByMonth !== undefined && (
             <CardGeneralData
               title="Productos"
@@ -48,7 +46,7 @@ export default function Stadistic() {
               total={analytics.totalUser}
             />
           )}
-        </section>
+        </section> */}
         <div className="flex justify-end items-center pt-6 pb-1">
           <DateRangePicker
             value={dateRange}
