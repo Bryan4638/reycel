@@ -44,7 +44,7 @@ jobs:
 
     - name: ssh into server 
       run: |
-        sshpass -p ${{ secrets.SSH_PRIVATE_KEY }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+        sshpass -p '${{ secrets.SSH_PRIVATE_KEY }}' ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
           cd /root/Reycel 
           docker login ghcr.io -u Bryan4638 -p ${{ secrets.TOCKEN_CI }} 
           docker pull ghcr.io/bryan4638/reycel-admin-dashboard:latest 
