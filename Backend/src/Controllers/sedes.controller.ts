@@ -103,8 +103,31 @@ export const createSede = async (req: Request, res: Response) => {
         direction,
         rent,
       },
-      include: {
-        workers: true,
+      select: {
+        id: true,
+        direction: true,
+        image: true,
+        phone: true,
+        netProfits: true,
+        losses: true,
+        _count:{
+          select:{
+            producto: true
+          }
+        },
+        finalLosses: true,
+        rent: true,
+        workers: {
+          select: {
+            baseUser: {
+              select: {
+                username: true,
+                image: true,
+              },
+            },
+            id: true,
+          },
+        },
       },
     });
 
@@ -137,8 +160,31 @@ export const updateSede = async (req: Request, res: Response) => {
         direction,
         rent,
       },
-      include: {
-        workers: true,
+      select: {
+        id: true,
+        direction: true,
+        image: true,
+        phone: true,
+        netProfits: true,
+        losses: true,
+        _count:{
+          select:{
+            producto: true
+          }
+        },
+        finalLosses: true,
+        rent: true,
+        workers: {
+          select: {
+            baseUser: {
+              select: {
+                username: true,
+                image: true,
+              },
+            },
+            id: true,
+          },
+        },
       },
     });
 

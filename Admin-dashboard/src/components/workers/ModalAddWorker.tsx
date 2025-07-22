@@ -51,7 +51,7 @@ const ModalAddWorker: FC<Props> = ({
   const [loading, setLoading] = useState(false);
 
   const [imageUrl, setImageUrl] = useState("./logo.webp");
-  const [selectedRole, setSelectedRole] = useState<string | null>();
+  const [selectedRole, setSelectedRole] = useState<string | null>("MODERATOR");
   const [sedes, setSedes] = useState<{ id: string; direction: string }[]>([]);
   const [disable, setDisable] = useState<boolean | undefined>(true);
 
@@ -289,7 +289,7 @@ const ModalAddWorker: FC<Props> = ({
                       }
                       label="Salario Fijo"
                       name="salary"
-                      defaultValue={String(salary)}
+                      defaultValue={salary ? String(salary) : "0"}
                       placeholder="Salario Fijo"
                       type="text"
                       variant="bordered"
