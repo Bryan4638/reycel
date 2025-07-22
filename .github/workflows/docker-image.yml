@@ -39,29 +39,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Action SSH
-      id: action-ssh
-      uses: tiyee/action-ssh@v1.0.1
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        port: 22 
-        username: ${{ secrets.SSH_USER }}
-        privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
-        command: |
-          cd /root/Reycel &&
-          docker login ghcr.io -u Bryan4638 -p ${{ secrets.TOCKEN_CI }} &&
-          docker pull ghcr.io/bryan4638/reycel-admin-dashboard:latest &&
-          docker pull ghcr.io/bryan4638/reycel-frontend:latest &&
-          docker pull ghcr.io/bryan4638/reycel-backend:latest &&
+    - name: Install sshpass
+      run: apt-get install -y sshpass
+
+    - name: ssh into server 
+      run: |
+        sshpass -p ${{ secrets.SSH_PRIVATE_KEY }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+          cd /root/Reycel 
+          docker login ghcr.io -u Bryan4638 -p ${{ secrets.TOCKEN_CI }} 
+          docker pull ghcr.io/bryan4638/reycel-admin-dashboard:latest 
+          docker pull ghcr.io/bryan4638/reycel-frontend:latest 
+          docker pull ghcr.io/bryan4638/reycel-backend:latest 
           docker-compose \
             -f docker-compose.admin.yml \
             -f docker-compose.backend.yml \
             -f docker-compose.frontend.yml \
-            down &&
+            down 
           docker-compose \
             -f docker-compose.admin.yml \
             -f docker-compose.backend.yml \
             -f docker-compose.frontend.yml \
             up -d
+        EOF
+
 
       
