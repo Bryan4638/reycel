@@ -47,18 +47,7 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - run: ssh ${{ steps.ssh.outputs.SERVER }} cd /root/Reycel
-      - run: ssh ${{ steps.ssh.outputs.SERVER }} docker login ghcr.io -u Bryan4638 -p ${{ secrets.TOCKEN_CI }} 
-      - run: ssh ${{ steps.ssh.outputs.SERVER }} docker pull ghcr.io/bryan4638/reycel-admin-dashboard:latest
-      - run: ssh ${{ steps.ssh.outputs.SERVER }} docker pull ghcr.io/bryan4638/reycel-frontend:latest
-      - run: ssh ${{ steps.ssh.outputs.SERVER }} docker pull ghcr.io/bryan4638/reycel-backend:latest
-      - run: ssh ${{ steps.ssh.outputs.SERVER }} docker-compose \
-                -f docker-compose.admin.yml \
-                -f docker-compose.backend.yml \
-                -f docker-compose.frontend.yml \
-                down 
-      - run: ssh ${{ steps.ssh.outputs.SERVER }} docker-compose \
-                -f docker-compose.admin.yml \
-                -f docker-compose.backend.yml \
-                -f docker-compose.frontend.yml \
-                up -d
+      - run: ssh ${{ steps.ssh.outputs.SERVER }} export TOKEN_CI=${{ secrets.TOCKEN_CI }}
+      - run: ssh ${{ steps.ssh.outputs.SERVER }} ./deploy_reycel.sh
+     
       
