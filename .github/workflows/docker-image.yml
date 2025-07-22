@@ -40,7 +40,7 @@ jobs:
 
     steps:
     - name: Install sshpass
-      run: apt-get install -y sshpass
+      run: sudo apt-get install -y sshpass
 
     - name: ssh into server 
       run: |
