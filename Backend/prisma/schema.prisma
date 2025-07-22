@@ -176,7 +176,7 @@ model Payment {
 
 model PaymentMethod {
   id             String         @id @default(uuid())
-  cardImage      String
+  cardImage      String?
   cardNumber     String?
   phoneNumber    String?
   createdAt      DateTime       @default(now())
