@@ -1,1 +1,0 @@
-import{r,R as c}from"./index-BvSoqA-Z.js";function n(){const[a,e]=r.useState(null),[o,s]=r.useState();return r.useEffect(()=>{c().then(t=>{e(t.data.data)}).catch(t=>{console.log(t),s(["Error al cargar las categorias."])})},[]),{category:a,error:o,setCategory:e}}export{n as u};
