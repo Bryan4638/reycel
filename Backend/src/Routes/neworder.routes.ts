@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authMiddleware as authAdmin } from "../Middlewares/middlewareAdmin";
+import { authModeratorMiddleware as authAdmin} from "../Middlewares/middlewareAdmin";
 import { addOrderItemAdmin, confirmOrderAdmin, deleteOrderItemAdmin, getOrderItemsAdmin, updateOrderItemAdmin } from "../Controllers/neworder.controller";
 const router = Router();
 

@@ -76,7 +76,7 @@ const ModalAddPayment: FC<Props> = ({
       return;
     }
 
-    if (!numberPhoneData) {
+    if (!numberPhoneData && selectedData !== "CASH") {
       toast.error("Debe selelcionar un numero a confirmar.");
       setLoading(false);
       return;
